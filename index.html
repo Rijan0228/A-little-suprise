@@ -1,1508 +1,292 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#160f27">
-  <meta name="description" content="A little birthday surprise made especially for Alisha.">
-  <title>A Little Surprise | Alisha</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#191027">
+  <meta name="description" content="A little birthday surprise made with friendship and care.">
+  <title>A Little Surprise ✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-  <style>
-    :root {
-      --night: #160f27;
-      --night2: #21142f;
-      --pink: #f3b6d5;
-      --rose: #eaa2c5;
-      --lavender: #c8b8ff;
-      --cream: #fff3e9;
-      --gold: #f3d9a1;
-      --muted: #c8bdd7;
-      --glass: rgba(255,255,255,.065);
-      --line: rgba(255,255,255,.14);
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 20px;
-    }
-
-    body {
-      margin: 0;
-      color: var(--cream);
-      background:
-        radial-gradient(ellipse at 15% 10%, #42264b 0%, transparent 40%),
-        radial-gradient(ellipse at 90% 35%, #34214b 0%, transparent 38%),
-        linear-gradient(155deg, #160f27, #20152e 55%, #130e24);
-      font-family: "DM Sans", sans-serif;
-      overflow-x: hidden;
-    }
-
-    button, input { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-
-    button:focus-visible, input:focus-visible {
-      outline: 2px solid var(--gold);
-      outline-offset: 4px;
-    }
-
-    .stars-bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .45;
-      z-index: -1;
-      background-image:
-        radial-gradient(1px 1px at 10% 20%, white 90%, transparent),
-        radial-gradient(2px 2px at 35% 70%, #f3d9a1 90%, transparent),
-        radial-gradient(1px 1px at 80% 25%, white 90%, transparent),
-        radial-gradient(2px 2px at 65% 85%, #f3b6d5 90%, transparent),
-        radial-gradient(1px 1px at 90% 65%, white 90%, transparent);
-      background-size:
-        230px 230px, 310px 310px, 190px 190px,
-        270px 270px, 340px 340px;
-    }
-
-    .hidden { display: none !important; }
-
-    .gate {
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: 24px 16px;
-    }
-
-    .gate-card, .glass-card {
-      background: var(--glass);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 20px 70px rgba(0,0,0,.2);
-    }
-
-    .gate-card {
-      width: min(100%, 430px);
-      text-align: center;
-      padding: 36px 25px;
-      border-radius: 28px;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: .19em;
-      font-size: .72rem;
-      color: var(--gold);
-    }
-
-    h1, h2, h3, .serif {
-      font-family: "Cormorant Garamond", serif;
-      font-weight: 500;
-    }
-
-    h1 {
-      font-size: clamp(2.7rem, 11vw, 4.4rem);
-      line-height: .98;
-      margin: 17px 0;
-    }
-
-    h2 {
-      font-size: clamp(2.2rem, 8vw, 3.7rem);
-      line-height: 1.05;
-      margin: 12px 0;
-    }
-
-    h3 { font-size: 1.65rem; }
-
-    p {
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .moon-icon {
-      font-size: 3.1rem;
-      filter: drop-shadow(0 0 18px rgba(243,217,161,.6));
-    }
-
-    .password-input {
-      display: block;
-      width: 100%;
-      margin: 23px 0 12px;
-      border-radius: 14px;
-      padding: 15px;
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,.2);
-      color: white;
-      outline: none;
-      text-align: center;
-      letter-spacing: .25em;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 999px;
-      padding: 13px 22px;
-      min-height: 46px;
-      color: #28162c;
-      font-weight: 700;
-      cursor: pointer;
-      background: linear-gradient(120deg, var(--pink), var(--gold));
-      box-shadow: 0 7px 25px rgba(234,162,197,.18);
-      transition: transform .2s, filter .2s;
-    }
-
-    .btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
-    .btn:active { transform: scale(.98); }
-
-    .btn.secondary {
-      color: var(--cream);
-      background: rgba(255,255,255,.08);
-      border: 1px solid var(--line);
-      box-shadow: none;
-    }
-
-    .error {
-      min-height: 24px;
-      color: #ffb6d2;
-      font-size: .9rem;
-    }
-
-    main {
-      width: min(100% - 28px, 940px);
-      margin: auto;
-    }
-
-    .section {
-      padding: 75px 0;
-      text-align: center;
-      scroll-margin-top: 20px;
-    }
-
-    .section + .section {
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
-
-    .section-intro {
-      max-width: 650px;
-      margin: 0 auto 30px;
-    }
-
-    .glass-card {
-      border-radius: 25px;
-      padding: clamp(20px, 5vw, 35px);
-      margin: 20px auto;
-      max-width: 760px;
-    }
-
-    .gold { color: var(--gold); }
-    .pink { color: var(--pink); }
-    .lavender { color: var(--lavender); }
-
-    /* MOON AND BIRTH STORY */
-
-    .cosmos {
-      display: grid;
-      grid-template-columns: minmax(100px, 180px) 1fr;
-      align-items: center;
-      gap: 25px;
-      text-align: left;
-    }
-
-    .moon-art {
-      width: 100%;
-      max-width: 175px;
-      aspect-ratio: 1;
-      filter: drop-shadow(0 0 22px rgba(216,210,255,.3));
-      animation: moonFloat 5s ease-in-out infinite;
-    }
-
-    @keyframes moonFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .story {
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(1.35rem, 4vw, 1.8rem);
-      line-height: 1.5;
-      color: var(--cream);
-    }
-
-    /* LIVE AGE COUNTER */
-
-    .age-panel {
-      margin-top: 27px;
-      padding: 24px 15px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(243,182,213,.2);
-    }
-
-    .age-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .age-unit {
-      padding: 15px 4px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.055);
-      min-width: 0;
-    }
-
-    .age-number {
-      display: block;
-      color: var(--pink);
-      font-size: clamp(1.35rem, 5vw, 2rem);
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      overflow-wrap: anywhere;
-    }
-
-    .age-label {
-      display: block;
-      margin-top: 5px;
-      font-size: .72rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .birth-note {
-      font-size: .85rem;
-      margin-bottom: 0;
-    }
-
-    /* MUSIC PLAYER */
-
-    .jukebox {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      flex-wrap: wrap;
-      text-align: left;
-    }
-
-    .vinyl {
-      width: 125px;
-      height: 125px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      background: repeating-radial-gradient(
-        circle, #17121e 0 4px, #302438 5px 7px
-      );
-      border: 4px solid #44334c;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 25px rgba(243,182,213,.13);
-      animation: spin 9s linear infinite;
-      animation-play-state: paused;
-    }
-
-    .vinyl.playing { animation-play-state: running; }
-
-    .vinyl-center {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--pink), var(--gold));
-      color: #29162d;
-      display: grid;
-      place-items: center;
-      font-size: .85rem;
-      font-weight: 700;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* FRIENDSHIP QUIZ */
-
-    .quiz-question {
-      color: var(--cream);
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin: 20px 0;
-    }
-
-    .answers {
-      display: grid;
-      gap: 11px;
-      max-width: 520px;
-      margin: 0 auto 20px;
-    }
-
-    .answer {
-      text-align: left;
-      color: var(--cream);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 15px;
-      background: rgba(255,255,255,.04);
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .answer:hover:not(:disabled) {
-      border-color: var(--pink);
-      background: rgba(243,182,213,.08);
-    }
-
-    .answer:disabled { cursor: default; opacity: .9; }
-    .answer.correct { border-color: #88e3b3; color: #a7f4c8; }
-    .answer.wrong { border-color: #f39abb; color: #ffc0d8; }
-
-    .quiz-feedback { min-height: 45px; }
-    .quiz-feedback.good { color: #a7f4c8; }
-    .quiz-feedback.bad { color: #ffc0d8; }
-
-    /* PHOTO FILMSTRIP */
-
-    .filmstrip-wrap {
-      overflow: hidden;
-      border-radius: 20px;
-      padding: 15px 0;
-      background: rgba(0,0,0,.14);
-      border: 1px solid var(--line);
-    }
-
-    .filmstrip {
-      display: flex;
-      width: max-content;
-      gap: 18px;
-      padding: 12px 18px;
-      animation: glide 28s linear infinite;
-    }
-
-    .filmstrip-wrap:hover .filmstrip,
-    .filmstrip-wrap:focus-within .filmstrip {
-      animation-play-state: paused;
-    }
-
-    .photo-frame {
-      width: clamp(190px, 55vw, 260px);
-      flex-shrink: 0;
-      padding: 10px 10px 18px;
-      background: #fff0f4;
-      border-radius: 5px;
-      transform: rotate(-2deg);
-      box-shadow: 0 10px 28px rgba(0,0,0,.2);
-      transition: transform .3s, box-shadow .3s;
-    }
-
-    .photo-frame:nth-child(even) { transform: rotate(2deg); }
-
-    .photo-frame:hover {
-      transform: scale(1.06) rotate(0);
-      box-shadow: 0 0 25px rgba(243,182,213,.3);
-      z-index: 2;
-    }
-
-    .photo-frame img {
-      display: block;
-      width: 100%;
-      height: 270px;
-      object-fit: cover;
-      background: #e6d9e4;
-      color: #5b4057;
-      font-size: .8rem;
-    }
-
-    .photo-caption {
-      margin-top: 12px;
-      color: #5b4057;
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.2rem;
-    }
-
-    @keyframes glide {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* MEMORY JAR */
-
-    .jar-button {
-      position: relative;
-      width: 170px;
-      height: 200px;
-      margin: 12px auto 20px;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-      display: block;
-      transition: transform .2s;
-    }
-
-    .jar-button:hover { transform: translateY(-5px); }
-
-    .jar-neck {
-      position: absolute;
-      top: 15px;
-      left: 55px;
-      width: 60px;
-      height: 35px;
-      border: 3px solid #d5c4ee;
-      border-radius: 7px 7px 3px 3px;
-      background: rgba(200,184,255,.15);
-    }
-
-    .jar-body {
-      position: absolute;
-      top: 42px;
-      left: 20px;
-      width: 130px;
-      height: 142px;
-      border: 3px solid rgba(216,204,255,.8);
-      border-radius: 27px 27px 34px 34px;
-      background: linear-gradient(
-        135deg, rgba(200,184,255,.2), rgba(243,182,213,.08)
-      );
-      box-shadow:
-        inset 0 0 25px rgba(200,184,255,.12),
-        0 0 30px rgba(200,184,255,.1);
-      overflow: hidden;
-    }
-
-    .jar-star {
-      position: absolute;
-      font-size: 23px;
-      color: var(--gold);
-      animation: twinkle 1.8s ease-in-out infinite alternate;
-    }
-
-    .jar-star:nth-child(1) { left: 23px; top: 22px; }
-    .jar-star:nth-child(2) { left: 68px; top: 54px; animation-delay: .5s; }
-    .jar-star:nth-child(3) { left: 43px; top: 87px; animation-delay: .9s; }
-    .jar-star:nth-child(4) { left: 90px; top: 26px; animation-delay: .2s; }
-
-    @keyframes twinkle {
-      from { opacity: .4; transform: scale(.8) rotate(0); }
-      to { opacity: 1; transform: scale(1.15) rotate(15deg); }
-    }
-
-    .memory-message {
-      min-height: 105px;
-      display: grid;
-      place-items: center;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(1.35rem, 4vw, 1.8rem);
-      color: var(--cream);
-      line-height: 1.5;
-      animation: messageIn .6s ease both;
-    }
-
-    @keyframes messageIn {
-      from { opacity: 0; transform: translateY(20px) scale(.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    /* BIRTHDAY CAKE */
-
-    .cake {
-      position: relative;
-      width: 210px;
-      height: 175px;
-      margin: 20px auto;
-    }
-
-    .cake-base {
-      position: absolute;
-      left: 10px;
-      bottom: 8px;
-      width: 190px;
-      height: 75px;
-      border-radius: 12px 12px 18px 18px;
-      background: linear-gradient(90deg, #d98eb5, #f4bfd8, #d98eb5);
-      box-shadow:
-        inset 0 -10px rgba(127,53,103,.15),
-        0 12px 20px rgba(0,0,0,.2);
-    }
-
-    .cake-top {
-      position: absolute;
-      left: 10px;
-      bottom: 65px;
-      width: 190px;
-      height: 34px;
-      border-radius: 50%;
-      background: #ffe4ed;
-      border: 2px solid #f7c3d9;
-    }
-
-    .cake-drip {
-      position: absolute;
-      top: 14px;
-      left: 30px;
-      width: 20px;
-      height: 24px;
-      border-radius: 0 0 12px 12px;
-      background: #ffe4ed;
-    }
-
-    .cake-drip:nth-child(2) { left: 82px; height: 18px; }
-    .cake-drip:nth-child(3) { left: 137px; height: 27px; }
-
-    .candle {
-      position: absolute;
-      left: 101px;
-      bottom: 94px;
-      width: 10px;
-      height: 45px;
-      border-radius: 3px;
-      background: repeating-linear-gradient(
-        135deg, #fff0f5 0 7px, #e9a3c7 7px 13px
-      );
-    }
-
-    .flame {
-      position: absolute;
-      left: 98px;
-      bottom: 137px;
-      width: 17px;
-      height: 25px;
-      border: 0;
-      padding: 0;
-      border-radius: 50% 50% 45% 45%;
-      background: radial-gradient(
-        ellipse at 50% 65%, #fff7bd 0 22%, #ffbd56 45%, #f57c5b 75%
-      );
-      box-shadow: 0 0 22px #ffca76, 0 0 42px rgba(255,184,92,.4);
-      transform-origin: center bottom;
-      animation: flicker .7s ease-in-out infinite alternate;
-      cursor: pointer;
-    }
-
-    @keyframes flicker {
-      from { transform: rotate(-5deg) scale(.96); }
-      to { transform: rotate(5deg) scale(1.05); }
-    }
-
-    .flame.blown {
-      opacity: 0;
-      transform: scale(.1) translateY(-20px);
-      animation: none;
-      transition: .4s;
-      pointer-events: none;
-    }
-
-    #letter-card {
-      text-align: left;
-      scroll-margin-top: 18px;
-    }
-
-    #letter-card > .eyebrow,
-    #letter-card > h2 {
-      text-align: center;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 30px 15px 50px;
-      font-size: .8rem;
-      color: #a99bbd;
-    }
-
-    @media (max-width: 600px) {
-      .section { padding: 55px 0; }
-
-      .cosmos {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 8px;
-      }
-
-      .moon-art { max-width: 130px; margin: auto; }
-      .cosmos .story { margin-top: 5px; }
-      .age-grid { gap: 7px; }
-      .age-unit { padding: 12px 2px; }
-      .age-label { font-size: .62rem; letter-spacing: .04em; }
-      .jukebox { text-align: center; }
-      .gate-card { padding: 30px 20px; }
-      .photo-frame img { height: 230px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="stars-bg" aria-hidden="true"></div>
+  <div class="starfield" aria-hidden="true"></div>
+  <div id="celebration" class="celebration" aria-hidden="true"></div>
 
-  <!-- 1. PASSWORD GATE -->
-  <section class="gate" id="gate">
-    <div class="gate-card">
-      <div class="moon-icon" aria-hidden="true">☾</div>
-      <div class="eyebrow">A little universe, just for you</div>
-
-      <h1>A Little<br><span class="pink">Surprise</span></h1>
-
-      <p>Some stories are too special to open without a little secret.</p>
-
-      <form id="password-form">
-        <label for="password" class="eyebrow">Enter the secret password</label>
-
-        <input
-          class="password-input"
-          id="password"
-          type="password"
-          inputmode="numeric"
-          autocomplete="off"
-          placeholder="••••"
-          aria-label="Secret password"
-          required
-        >
-
-        <button class="btn" type="submit" style="width:100%">
-          Unlock your surprise ✨
-        </button>
-
-        <div id="password-error" class="error" role="status"></div>
-      </form>
-
-      <p style="font-size:.8rem;margin-bottom:0">
-        Made with friendship, stardust, and a little magic.
-      </p>
-    </div>
-  </section>
-
-  <!-- MAIN WEBSITE -->
-  <main id="main-site" class="hidden">
-
-    <!-- 2. WRITTEN IN THE STARS -->
-    <section class="section" id="stars-story">
-      <div class="eyebrow">Chapter one · Your universe</div>
-
-      <h2>Written in the <span class="lavender">Stars</span></h2>
-
-      <p class="section-intro">
-        Some people arrive quietly and somehow make the world brighter.
-      </p>
-
-      <div class="glass-card">
-        <div class="cosmos">
-
-          <svg class="moon-art" viewBox="0 0 180 180" role="img"
-               aria-label="A glowing silver crescent moon">
-            <defs>
-              <linearGradient id="moonGradient" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="45%" stop-color="#dcd9f2"/>
-                <stop offset="100%" stop-color="#9c9ab9"/>
-              </linearGradient>
-
-              <filter id="moonGlow" x="-100%" y="-100%" width="300%" height="300%">
-                <feGaussianBlur stdDeviation="5"/>
-              </filter>
-
-              <mask id="crescentMask">
-                <rect width="180" height="180" fill="black"/>
-                <circle cx="82" cy="90" r="57" fill="white"/>
-                <circle cx="111" cy="73" r="53" fill="black"/>
-              </mask>
-            </defs>
-
-            <circle cx="82" cy="90" r="59"
-                    fill="#dcd9f2" opacity=".4"
-                    filter="url(#moonGlow)" mask="url(#crescentMask)"/>
-
-            <circle cx="82" cy="90" r="57"
-                    fill="url(#moonGradient)" mask="url(#crescentMask)"/>
-
-            <g fill="#fff2ce">
-              <path d="M137 32 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/>
-              <path d="M37 42 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>
-              <circle cx="42" cy="123" r="2.5"/>
-              <circle cx="143" cy="113" r="2"/>
-            </g>
-          </svg>
-
-          <div>
-            <div class="eyebrow">November 15, 2009</div>
-
-            <p class="story">
-              On the night you were born (November 15, 2009), the moon was
-              a quiet, gentle 2% crescent, stepping back to let your light
-              shine. You were born under the mystical Chaturdashi Tithi,
-              bringing starlight into the world.
-            </p>
-          </div>
-        </div>
-
-        <!-- LIVE AGE COUNTER -->
-        <div class="age-panel">
-          <div class="eyebrow">Your journey around the sun</div>
-
-          <h3 style="margin:10px 0 0">
-            Every second is part of your story
-          </h3>
-
-          <p class="birth-note">
-            Born November 15, 2009 · 9:15 PM Nepal time (AD)
-          </p>
-
-          <div class="age-grid" aria-label="Live age counter">
-            <div class="age-unit">
-              <span class="age-number" id="age-years">—</span>
-              <span class="age-label">Years</span>
-            </div>
-
-            <div class="age-unit">
-              <span class="age-number" id="age-months">—</span>
-              <span class="age-label">Months</span>
-            </div>
-
-            <div class="age-unit">
-              <span class="age-number" id="age-days">—</span>
-              <span class="age-label">Days</span>
-            </div>
-
-            <div class="age-unit">
-              <span class="age-number" id="age-hours">—</span>
-              <span class="age-label">Hours</span>
-            </div>
-
-            <div class="age-unit">
-              <span class="age-number" id="age-minutes">—</span>
-              <span class="age-label">Minutes</span>
-            </div>
-
-            <div class="age-unit">
-              <span class="age-number" id="age-seconds">—</span>
-              <span class="age-label">Seconds</span>
-            </div>
-          </div>
-
-          <p class="birth-note">
-            Your time, your story, your own little universe. ✨
-          </p>
-        </div>
+  <main>
+    <!-- 1. PASSWORD -->
+    <section id="gate" class="screen active">
+      <div class="card hero-card">
+        <div class="moon">☾</div>
+        <p class="eyebrow">A LITTLE SECRET JUST FOR YOU</p>
+        <h1>A Little<br><em>Surprise</em></h1>
+        <p class="muted">Some memories, a few wishes, and a little bit of magic are waiting inside.</p>
+        <form id="password-form">
+          <label for="password">Your secret password</label>
+          <input id="password" type="password" placeholder="Enter the secret code" autocomplete="off" required>
+          <button class="primary" type="submit">Unlock the magic ✨</button>
+          <p id="password-error" class="error" role="alert"></p>
+        </form>
+        <p class="tiny">A little corner of the internet, made just for you ♡</p>
       </div>
-
-      <!-- ACTUAL MUSIC PLAYER -->
-      <div class="glass-card jukebox">
-        <div class="vinyl" id="vinyl-record" aria-hidden="true">
-          <div class="vinyl-center">♪</div>
-        </div>
-
-        <div>
-          <div class="eyebrow">A little musical nostalgia</div>
-
-          <h3 style="margin:8px 0">Fireflies</h3>
-
-          <p style="margin:0">
-            Owl City · A little stardust for your night.
-          </p>
-
-          <audio id="birthday-music" loop preload="none">
-            <source src="fireflies.mp3" type="audio/mpeg">
-            Your browser does not support audio playback.
-          </audio>
-
-          <button class="btn" id="music-toggle" type="button">
-            ♪ Play Music
-          </button>
-
-          <p id="music-status" style="font-size:.8rem" role="status">
-            Tap to start the music.
-          </p>
-        </div>
-      </div>
-
-      <button class="btn" onclick="goTo('quiz')">
-        Continue our story ↓
-      </button>
     </section>
 
-    <!-- 3. FRIENDSHIP QUIZ -->
-    <section class="section" id="quiz">
-      <div class="eyebrow">Chapter two · Just us</div>
+    <!-- 2. SEALED ENVELOPE -->
+    <section id="envelope-screen" class="screen">
+      <div class="card">
+        <p class="eyebrow">BEFORE THE CELEBRATION</p>
+        <h2>A little letter is waiting</h2>
+        <p class="muted">There is a whole little surprise tucked inside this envelope.</p>
+        <button id="envelope-button" class="envelope" type="button">
+          <span class="envelope-art">💌</span>
+          <span class="envelope-label">TAP TO OPEN IT</span>
+        </button>
+        <p class="prompt">Go on… open it ♡</p>
+      </div>
+    </section>
 
-      <h2>A Tiny Friendship <span class="pink">Quiz</span></h2>
+    <!-- 3. BIRTHDAY CAKE -->
+    <section id="cake-screen" class="screen">
+      <div class="card">
+        <p class="eyebrow">YOUR SPECIAL MOMENT</p>
+        <h2>Happy Birthday, Alisha!</h2>
+        <p>Close your eyes for a moment, make a wish, and get ready.</p>
+        <div class="cake-scene">
+          <div class="cake">
+            <div id="flame" class="flame"></div>
+            <div class="wick"></div>
+            <div class="candle"></div>
+            <div class="icing"></div>
+            <div class="cake-body"></div>
+            <div class="cake-plate"></div>
+          </div>
+        </div>
+        <p id="cake-message" class="highlight">Your wish can stay a secret. 💗</p>
+        <p id="countdown" class="countdown" aria-live="polite"></p>
+        <button id="blow-button" class="primary" type="button">I'm ready! Blow the candle 🎂</button>
+      </div>
+    </section>
 
-      <p class="section-intro">
-        Three little questions about the friendship behind this surprise.
-      </p>
+    <!-- 4. STORY AND LIVE AGE COUNTER -->
+    <section id="story" class="screen">
+      <div class="card">
+        <p class="eyebrow">ANOTHER CHAPTER BEGINS</p>
+        <h2>Look how far you've come ✨</h2>
+        <p>One life, so many little moments, and so many beautiful things still ahead.</p>
 
-      <div class="glass-card">
-        <div id="quiz-progress" class="eyebrow">Question 1 of 3</div>
+        <h3 class="subheading">Your journey so far</h3>
+        <div class="age-grid">
+          <div><strong id="age-years">0</strong><span>Years</span></div>
+          <div><strong id="age-months">0</strong><span>Months</span></div>
+          <div><strong id="age-days">0</strong><span>Days</span></div>
+          <div><strong id="age-hours">0</strong><span>Hours</span></div>
+          <div><strong id="age-minutes">0</strong><span>Minutes</span></div>
+          <div><strong id="age-seconds">0</strong><span>Seconds</span></div>
+        </div>
 
-        <div id="quiz-question" class="quiz-question"></div>
+        <div class="birthday-countdown">
+          <p class="eyebrow">UNTIL YOUR NEXT BIRTHDAY</p>
+          <p id="birthday-countdown">Counting the moments…</p>
+        </div>
 
+        <p class="muted">Here's to becoming more yourself, one day at a time.</p>
+        <button class="primary" data-next="quiz">Let's play a little quiz →</button>
+      </div>
+    </section>
+
+    <!-- 5. FRIENDSHIP QUIZ -->
+    <section id="quiz" class="screen">
+      <div class="card">
+        <p class="eyebrow">FRIENDSHIP CHECK</p>
+        <h2>A tiny quiz for you</h2>
+        <p id="quiz-progress" class="muted">Question 1 of 3</p>
+        <h3 id="quiz-question"></h3>
         <div id="quiz-answers" class="answers"></div>
+        <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
+        <button id="quiz-next" class="primary" type="button" hidden>Next question →</button>
+        <div id="quiz-complete" hidden>
+          <h3>Quiz complete! 💗</h3>
+          <p>Friendship isn't about perfect answers. It's about the moments we share.</p>
+          <button class="primary" data-next="photos">Let's look at memories →</button>
+        </div>
+      </div>
+    </section>
 
-        <div id="quiz-feedback" class="quiz-feedback" role="status"></div>
+    <!-- 6. ORIGINAL PHOTOS AND VIDEO -->
+    <section id="photos" class="screen">
+      <div class="card wide">
+        <p class="eyebrow">OUR LITTLE MEMORY BOOK</p>
+        <h2>Moments worth keeping</h2>
+        <p class="muted">A few snapshots for a day worth remembering.</p>
 
-        <button id="quiz-next" class="btn hidden" type="button">
-          Next question →
+        <div class="gallery">
+          <figure>
+            <img src="photo1.jpg" alt="A friendship memory" loading="lazy">
+            <figcaption>A little moment to keep ♡</figcaption>
+          </figure>
+          <figure>
+            <img src="photo2.jpg" alt="Another special memory" loading="lazy">
+            <figcaption>One for the memory book ✨</figcaption>
+          </figure>
+          <figure>
+            <img src="photo3.jpg" alt="A favorite moment" loading="lazy">
+            <figcaption>More memories to come 💗</figcaption>
+          </figure>
+        </div>
+
+        <div class="video-memory">
+          <p class="eyebrow">A MOMENT IN MOTION</p>
+          <video id="memory-video" controls playsinline preload="metadata">
+            <source src="memory-video.mp4" type="video/mp4">
+            Your browser does not support this video.
+          </video>
+          <p class="tiny">Your original video belongs here.</p>
+        </div>
+
+        <button class="primary" data-next="timeline">Our friendship story →</button>
+      </div>
+    </section>
+
+    <!-- 7. FRIENDSHIP TIMELINE -->
+    <section id="timeline" class="screen">
+      <div class="card">
+        <p class="eyebrow">A FRIENDSHIP STORY</p>
+        <h2>Little moments, lasting meaning</h2>
+        <div class="timeline">
+          <article class="timeline-item">
+            <span class="timeline-dot">✧</span>
+            <div>
+              <h3>Where it began</h3>
+              <p>Two people crossed paths, and a friendship slowly became something special.</p>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <span class="timeline-dot">♡</span>
+            <div>
+              <h3>Getting to know you</h3>
+              <p>Conversations, little jokes, and ordinary days started becoming memories.</p>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <span class="timeline-dot">☾</span>
+            <div>
+              <h3>Being there</h3>
+              <p>Some of the most meaningful friendships show their value when life gets difficult.</p>
+            </div>
+          </article>
+          <article class="timeline-item">
+            <span class="timeline-dot">✿</span>
+            <div>
+              <h3>More chapters ahead</h3>
+              <p>There are still new experiences, more laughter, and memories we haven't made yet.</p>
+            </div>
+          </article>
+        </div>
+        <button class="primary" data-next="appreciation">A few things I appreciate →</button>
+      </div>
+    </section>
+
+    <!-- 8. APPRECIATION -->
+    <section id="appreciation" class="screen">
+      <div class="card">
+        <p class="eyebrow">THINGS WORTH SAYING</p>
+        <h2>A little appreciation</h2>
+        <div class="appreciation-list">
+          <article class="appreciation-item">
+            <span>♡</span>
+            <p>Your honesty. It makes a friendship feel real.</p>
+          </article>
+          <article class="appreciation-item">
+            <span>✧</span>
+            <p>Your presence. Sometimes just being there means a lot.</p>
+          </article>
+          <article class="appreciation-item">
+            <span>🌷</span>
+            <p>Your individuality. The world is better when people get to be themselves.</p>
+          </article>
+          <article class="appreciation-item">
+            <span>☀</span>
+            <p>The memories we've made, and all the good ones still waiting for us.</p>
+          </article>
+        </div>
+        <button class="primary" data-next="jar">Open the wish jar →</button>
+      </div>
+    </section>
+
+    <!-- 9. FOUR-MESSAGE WISH JAR -->
+    <section id="jar" class="screen">
+      <div class="card">
+        <p class="eyebrow">FOUR LITTLE WISHES</p>
+        <h2>A jar full of good things</h2>
+        <p>Tap the jar to reveal a message. One wish at a time.</p>
+        <button id="jar-button" class="jar" type="button" aria-label="Tap to reveal the next wish">
+          <span class="jar-emoji">🏺</span>
+          <span id="jar-prompt">TAP THE JAR ♡</span>
         </button>
-
-        <div id="quiz-complete" class="hidden">
-          <h3 class="pink">You made it! ✨</h3>
-
-          <p>
-            Friendship isn't about getting every answer right.
-            It's about all the little moments that make a bond meaningful.
-          </p>
-
-          <button class="btn" onclick="goTo('photos')">
-            See our little snapshots ↓
-          </button>
-        </div>
+        <p id="jar-count" class="muted">0 of 4 wishes discovered</p>
+        <div id="memory-message" class="memory-message" aria-live="polite"></div>
+        <button id="letter-unlock" class="primary" type="button" hidden>There's a letter for you 💌</button>
       </div>
     </section>
 
-    <!-- 4. PHOTO FILMSTRIP -->
-    <section class="section" id="photos">
-      <div class="eyebrow">Chapter three · Little snapshots</div>
-
-      <h2>Three frames, <span class="lavender">one beautiful soul.</span></h2>
-
-      <p class="section-intro">
-        A tiny scrapbook of moments worth keeping.
-      </p>
-
-      <div class="filmstrip-wrap" tabindex="0"
-           aria-label="Moving photo filmstrip. Hover or focus to pause.">
-
-        <div class="filmstrip">
-
-          <div class="photo-frame">
-            <img src="photo1.jpg" alt="Memory photograph one" loading="lazy">
-            <div class="photo-caption">A little moment ♡</div>
-          </div>
-
-          <div class="photo-frame">
-            <img src="photo2.jpg" alt="Memory photograph two" loading="lazy">
-            <div class="photo-caption">One to remember ✨</div>
-          </div>
-
-          <div class="photo-frame">
-            <img src="photo3.jpg" alt="Memory photograph three" loading="lazy">
-            <div class="photo-caption">A favorite chapter ♡</div>
-          </div>
-
-          <!-- Repeated images make the filmstrip loop seamlessly -->
-          <div class="photo-frame" aria-hidden="true">
-            <img src="photo1.jpg" alt="" loading="lazy">
-            <div class="photo-caption">A little moment ♡</div>
-          </div>
-
-          <div class="photo-frame" aria-hidden="true">
-            <img src="photo2.jpg" alt="" loading="lazy">
-            <div class="photo-caption">One to remember ✨</div>
-          </div>
-
-          <div class="photo-frame" aria-hidden="true">
-            <img src="photo3.jpg" alt="" loading="lazy">
-            <div class="photo-caption">A favorite chapter ♡</div>
-          </div>
-
-        </div>
-      </div>
-
-      <p style="font-size:.8rem">
-        Add your original photos as photo1.jpg, photo2.jpg, and photo3.jpg
-        in the same folder as this file.
-      </p>
-
-      <button class="btn" onclick="goTo('memories')">
-        Discover the memory jar ↓
-      </button>
-    </section>
-
-    <!-- 5. MEMORY JAR -->
-    <section class="section" id="memories">
-      <div class="eyebrow">Chapter four · From the heart</div>
-
-      <h2>The Little <span class="pink">Memory Jar</span></h2>
-
-      <p class="section-intro">
-        Every star holds a small reminder of why this friendship matters.
-      </p>
-
-      <div class="glass-card">
-
-        <button class="jar-button" id="jar-button"
-                aria-label="Tap the memory jar to reveal a message">
-          <span class="jar-neck"></span>
-
-          <span class="jar-body">
-            <span class="jar-star">✦</span>
-            <span class="jar-star">✧</span>
-            <span class="jar-star">✦</span>
-            <span class="jar-star">✧</span>
-          </span>
-        </button>
-
-        <h3 class="gold" id="jar-prompt">
-          Tap the jar to find a little star ✨
-        </h3>
-
-        <div class="memory-message" id="memory-message" aria-live="polite">
-          Your first little message is waiting.
-        </div>
-
-        <p id="jar-count">4 little stars are waiting for you.</p>
-
-        <button id="letter-unlock" class="btn hidden" type="button"
-                onclick="goTo('birthday-letter')">
-          Open your birthday letter 💌
-        </button>
+    <!-- 10. FUTURE WISHES TIME CAPSULE -->
+    <section id="time-capsule" class="screen">
+      <div class="card">
+        <p class="eyebrow">A NOTE FOR YOUR FUTURE SELF</p>
+        <h2>A tiny time capsule ✨</h2>
+        <p>Write a hope, a dream, or something you want your future self to remember.</p>
+        <label for="future-wish">Your wish for the future</label>
+        <textarea id="future-wish" rows="4" maxlength="500" placeholder="Dear future me…"></textarea>
+        <button id="save-wish" class="primary" type="button">Seal my wish ♡</button>
+        <p id="wish-status" class="feedback" aria-live="polite"></p>
+        <div id="saved-wish" class="saved-wish" hidden></div>
+        <p class="tiny">This stays in this browser on this device. It isn't sent to anyone.</p>
+        <button class="secondary" data-next="letter">Read your birthday letter →</button>
       </div>
     </section>
 
-    <!-- 6. CAKE AND BIRTHDAY LETTER -->
-    <section class="section" id="birthday-letter">
-      <div class="eyebrow">The final chapter · Make a wish</div>
-
-      <h2>Make a Wish, <span class="pink">Alisha</span> 🎂</h2>
-
-      <p class="section-intro">
-        One little candle for all the wonderful things waiting for you.
-      </p>
-
-      <div class="glass-card">
-        <div class="cake" aria-label="A pink birthday cake with one candle">
-          <div class="cake-base"></div>
-
-          <div class="cake-top">
-            <span class="cake-drip"></span>
-            <span class="cake-drip"></span>
-            <span class="cake-drip"></span>
-          </div>
-
-          <div class="candle"></div>
-
-          <button class="flame" id="flame" type="button"
-                  aria-label="Tap the flame to blow out the candle"></button>
+    <!-- 11. BIRTHDAY LETTER -->
+    <section id="letter" class="screen">
+      <article class="card letter-card">
+        <p class="eyebrow">A FEW WORDS FROM ME</p>
+        <h2>Happy Birthday, Alisha! ♡</h2>
+        <div class="letter-text">
+          <p>Some people enter our lives and make ordinary days feel a little brighter. I'm genuinely glad our paths crossed, and I'm grateful that our friendship became something I can appreciate.</p>
+          <p>Thank you for being honest, for being yourself, and for being there during moments when life wasn't easy. Sometimes people don't realize how much the little things they do can mean to someone.</p>
+          <p>For your birthday, I hope you find reasons to smile even on difficult days. I hope you get opportunities that excite you, people who treat you kindly, and memories that make you proud of the person you're becoming.</p>
+          <p>Keep being yourself, keep chasing the things that matter to you, and don't forget that you deserve good things in life.</p>
+          <p class="signoff">Happy Birthday once again!<br>Here's to our friendship and many more memories. 💗</p>
         </div>
-
-        <h3 id="cake-title" class="gold">
-          Tap the candle flame to blow it out ✨
-        </h3>
-
-        <p id="cake-message">
-          Close your eyes, make a wish, and tap the little flame.
-        </p>
-      </div>
-
-      <div class="glass-card" id="letter-card">
-        <div class="eyebrow">A letter from your friend</div>
-
-        <h2>Happy Birthday, <span class="pink">Alisha!</span></h2>
-
-        <p style="text-align:left;line-height:2">
-          Hey Alisha,<br><br>
-
-          Happy Birthday! ♡<br><br>
-
-          I'm genuinely grateful that life brought us together.
-          You have been there for me during times when things weren't easy,
-          and that means more to me than I can fully explain.
-          Sometimes, having someone who listens, stays honest, and makes
-          life feel a little less heavy is a gift in itself.
-          I'm thankful our friendship became one of those gifts.<br><br>
-
-          I hope this new chapter brings you peaceful days, genuine laughter,
-          exciting opportunities, and people who appreciate the wonderful
-          person you are. Keep being honest, keep being yourself, and never
-          forget that your presence can make a difference in someone's
-          world, even when you don't notice it.<br><br>
-
-          I hope we collect many more memories, laugh at things that make
-          no sense to anyone else, support each other through difficult
-          days, and look back someday at how far we've come.<br><br>
-
-          You deserve a birthday filled with warmth, happiness, and little
-          moments that make you smile long after the day is over.<br><br>
-
-          Thank you for being you, and thank you for being my friend.
-          This little website is only a small way of showing how much
-          I appreciate our friendship.<br><br>
-
-          Here's to your next chapter and all the beautiful things it may
-          bring.<br><br>
-
-          <span class="pink serif" style="font-size:1.7rem">
-            Happy Birthday, Alisha. Keep shining in your own way. ♡
-          </span>
-        </p>
-      </div>
+        <button class="primary" id="finish-button" type="button">One last little surprise ✨</button>
+      </article>
     </section>
 
-    <footer class="footer">
-      Made with friendship, stardust, and a little bit of magic. ✨
-    </footer>
-
+    <!-- 12. FINALE -->
+    <section id="final" class="screen">
+      <div class="card">
+        <div class="moon">✧</div>
+        <p class="eyebrow">THE END OF THIS LITTLE SURPRISE</p>
+        <h2>Keep shining, Alisha.</h2>
+        <p>I hope this little corner of the internet gives you a reason to smile today.</p>
+        <p class="highlight">Happy Birthday! 🎂💗</p>
+        <p>Here's to the memories we've made and the ones still to come.</p>
+        <button class="secondary" id="replay-button" type="button">Experience it again ↺</button>
+      </div>
+    </section>
   </main>
 
-  <script>
-    "use strict";
-
-    const $ = (id) => document.getElementById(id);
-
-    // =========================================
-    // 1. PASSWORD GATE
-    // =========================================
-
-    const SECRET_PASSWORD = "1234";
-    let ageTimerStarted = false;
-
-    $("password-form").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      if ($("password").value === SECRET_PASSWORD) {
-        $("gate").classList.add("hidden");
-        $("main-site").classList.remove("hidden");
-
-        updateAge();
-
-        if (!ageTimerStarted) {
-          window.setInterval(updateAge, 1000);
-          ageTimerStarted = true;
-        }
-
-        celebrate(90);
-      } else {
-        $("password-error").textContent =
-          "Not quite! Try the secret password again. ♡";
-
-        $("password").value = "";
-        $("password").focus();
-      }
-    });
-
-    function celebrate(amount = 50) {
-      if (typeof confetti !== "function") return;
-
-      confetti({
-        particleCount: amount,
-        spread: 75,
-        origin: { y: 0.65 },
-        colors: ["#f3b6d5", "#f3d9a1", "#c8b8ff", "#ffffff"]
-      });
-    }
-
-    // =========================================
-    // 2. LIVE AGE COUNTER
-    // Birthday: November 15, 2009, at 9:15 PM
-    // Nepal Time = UTC+05:45 = 15:30 UTC
-    // =========================================
-
-    const BIRTH_UTC = Date.UTC(2009, 10, 15, 15, 30, 0);
-
-    function nepalDateParts(date) {
-      const parts = new Intl.DateTimeFormat("en-GB", {
-        timeZone: "Asia/Kathmandu",
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hourCycle: "h23"
-      }).formatToParts(date);
-
-      const values = {};
-
-      parts.forEach(part => {
-        if (part.type !== "literal") {
-          values[part.type] = Number(part.value);
-        }
-      });
-
-      return {
-        year: values.year,
-        month: values.month,
-        day: values.day,
-        hour: values.hour,
-        minute: values.minute,
-        second: values.second
-      };
-    }
-
-    function daysInMonth(year, month) {
-      // month is 1-based
-      return new Date(Date.UTC(year, month, 0)).getUTCDate();
-    }
-
-    function updateAge() {
-      const now = new Date();
-
-      if (now.getTime() < BIRTH_UTC) {
-        [
-          "years", "months", "days",
-          "hours", "minutes", "seconds"
-        ].forEach(unit => {
-          $("age-" + unit).textContent = "0";
-        });
-        return;
-      }
-
-      const current = nepalDateParts(now);
-
-      const birth = {
-        year: 2009,
-        month: 11,
-        day: 15,
-        hour: 21,
-        minute: 15,
-        second: 0
-      };
-
-      let years = current.year - birth.year;
-      let months = current.month - birth.month;
-      let days = current.day - birth.day;
-      let hours = current.hour - birth.hour;
-      let minutes = current.minute - birth.minute;
-      let seconds = current.second - birth.second;
-
-      if (seconds < 0) {
-        seconds += 60;
-        minutes--;
-      }
-
-      if (minutes < 0) {
-        minutes += 60;
-        hours--;
-      }
-
-      if (hours < 0) {
-        hours += 24;
-        days--;
-      }
-
-      if (days < 0) {
-        const previousMonth =
-          current.month === 1 ? 12 : current.month - 1;
-
-        const previousYear =
-          current.month === 1 ? current.year - 1 : current.year;
-
-        days += daysInMonth(previousYear, previousMonth);
-        months--;
-      }
-
-      if (months < 0) {
-        months += 12;
-        years--;
-      }
-
-      $("age-years").textContent = years;
-      $("age-months").textContent = months;
-      $("age-days").textContent = days;
-      $("age-hours").textContent = hours;
-      $("age-minutes").textContent = minutes;
-      $("age-seconds").textContent = seconds;
-    }
-
-    // =========================================
-    // 3. MUSIC PLAYER
-    // Place fireflies.mp3 beside index.html
-    // =========================================
-
-    const birthdayMusic = $("birthday-music");
-    const musicToggle = $("music-toggle");
-    const musicStatus = $("music-status");
-    const vinylRecord = $("vinyl-record");
-
-    musicToggle.addEventListener("click", async () => {
-      if (birthdayMusic.paused) {
-        try {
-          await birthdayMusic.play();
-
-          musicToggle.textContent = "Ⅱ Pause Music";
-          musicStatus.textContent = "Now playing Fireflies ✨";
-          vinylRecord.classList.add("playing");
-        } catch (error) {
-          musicStatus.textContent =
-            "Couldn't play the track. Check fireflies.mp3 and try again.";
-        }
-      } else {
-        birthdayMusic.pause();
-
-        musicToggle.textContent = "♪ Play Music";
-        musicStatus.textContent = "Music paused.";
-        vinylRecord.classList.remove("playing");
-      }
-    });
-
-    birthdayMusic.addEventListener("error", () => {
-      musicStatus.textContent =
-        "Music file unavailable. Check that fireflies.mp3 is uploaded.";
-    });
-
-    // =========================================
-    // NAVIGATION
-    // =========================================
-
-    function goTo(id) {
-      const section = $(id);
-
-      if (section) {
-        section.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
-    }
-
-    // =========================================
-    // 4. FRIENDSHIP QUIZ
-    // =========================================
-
-    const questions = [
-      {
-        question: "What makes a friendship meaningful?",
-        answers: [
-          "Being there for each other and being honest",
-          "Always agreeing about everything",
-          "Only talking when life is easy"
-        ],
-        correct: 0,
-        explanation:
-          "Exactly! Honesty and showing up for each other matter."
-      },
-      {
-        question: "What is one thing worth keeping in a friendship?",
-        answers: [
-          "A competition to see who is better",
-          "Trust, kindness, and shared memories",
-          "Keeping every feeling a secret"
-        ],
-        correct: 1,
-        explanation:
-          "Yes! The little things build a friendship that matters."
-      },
-      {
-        question: "What should the next chapter bring?",
-        answers: [
-          "More kindness, laughter, and new memories",
-          "Never trying anything new",
-          "Forgetting all the good moments"
-        ],
-        correct: 0,
-        explanation:
-          "That's the spirit! Here's to many more good memories."
-      }
-    ];
-
-    let questionIndex = 0;
-    let answered = false;
-
-    function renderQuestion() {
-      const question = questions[questionIndex];
-
-      answered = false;
-
-      $("quiz-progress").textContent =
-        `Question ${questionIndex + 1} of ${questions.length}`;
-
-      $("quiz-question").textContent = question.question;
-      $("quiz-feedback").textContent = "";
-      $("quiz-feedback").className = "quiz-feedback";
-      $("quiz-answers").replaceChildren();
-      $("quiz-next").classList.add("hidden");
-      $("quiz-complete").classList.add("hidden");
-
-      question.answers.forEach((answer, index) => {
-        const button = document.createElement("button");
-
-        button.className = "answer";
-        button.textContent = answer;
-        button.type = "button";
-
-        button.addEventListener("click", () => {
-          chooseAnswer(index, button);
-        });
-
-        $("quiz-answers").appendChild(button);
-      });
-    }
-
-    function chooseAnswer(index, chosenButton) {
-      if (answered) return;
-
-      answered = true;
-
-      const question = questions[questionIndex];
-
-      const buttons = [
-        ...$("quiz-answers").querySelectorAll("button")
-      ];
-
-      buttons.forEach(button => {
-        button.disabled = true;
-      });
-
-      if (index === question.correct) {
-        chosenButton.classList.add("correct");
-
-        $("quiz-feedback").textContent = question.explanation;
-        $("quiz-feedback").classList.add("good");
-
-        celebrate(35);
-      } else {
-        chosenButton.classList.add("wrong");
-        buttons[question.correct].classList.add("correct");
-
-        $("quiz-feedback").textContent =
-          "Not quite — the highlighted answer is the one to remember. ♡";
-
-        $("quiz-feedback").classList.add("bad");
-      }
-
-      if (questionIndex < questions.length - 1) {
-        $("quiz-next").classList.remove("hidden");
-        $("quiz-next").textContent = "Next question →";
-      } else {
-        $("quiz-next").classList.add("hidden");
-        $("quiz-complete").classList.remove("hidden");
-      }
-    }
-
-    $("quiz-next").addEventListener("click", () => {
-      if (!answered || questionIndex >= questions.length - 1) return;
-
-      questionIndex++;
-      renderQuestion();
-    });
-
-    renderQuestion();
-
-    // =========================================
-    // 5. MEMORY JAR
-    // Letter unlocks after every message is read
-    // =========================================
-
-    const memories = [
-      "Thank you for being there during days when life felt heavy. It meant more than you know.",
-
-      "Your honesty is one of the things I appreciate most about our friendship.",
-
-      "I'm glad that two people who might not have expected it became such good friends.",
-
-      "I hope we keep collecting little memories, laughing together, and supporting each other for years to come."
-    ];
-
-    let memoryIndex = 0;
-
-    $("jar-button").addEventListener("click", () => {
-      if (memoryIndex >= memories.length) return;
-
-      $("memory-message").textContent = memories[memoryIndex];
-
-      // Restart the animation for each new message
-      $("memory-message").style.animation = "none";
-      void $("memory-message").offsetWidth;
-      $("memory-message").style.animation = "messageIn .6s ease both";
-
-      memoryIndex++;
-
-      const remaining = memories.length - memoryIndex;
-
-      if (remaining > 0) {
-        $("jar-prompt").textContent =
-          "Another little star is waiting ✨";
-
-        $("jar-count").textContent =
-          `${remaining} little star${remaining === 1 ? "" : "s"} left to discover.`;
-      } else {
-        $("jar-prompt").textContent =
-          "Every little star has been found. ♡";
-
-        $("jar-count").textContent =
-          "That's all the little memories in the jar.";
-
-        $("letter-unlock").classList.remove("hidden");
-
-        $("jar-button").setAttribute(
-          "aria-label",
-          "All memory jar messages have been read"
-        );
-
-        $("jar-button").disabled = true;
-        $("jar-button").style.cursor = "default";
-      }
-    });
-
-    // =========================================
-    // 6. BIRTHDAY CANDLE
-    // Tap to extinguish and celebrate
-    // =========================================
-
-    let candleBlown = false;
-
-    $("flame").addEventListener("click", () => {
-      if (candleBlown) return;
-
-      candleBlown = true;
-
-      $("flame").classList.add("blown");
-
-      $("cake-title").textContent =
-        "Your wish is on its way! ✨";
-
-      $("cake-message").textContent =
-        "May your next chapter be full of happiness, friendship, and beautiful surprises.";
-
-      if (typeof confetti === "function") {
-        const end = Date.now() + 1800;
-
-        const colors = [
-          "#f3b6d5",
-          "#f3d9a1",
-          "#c8b8ff",
-          "#ffffff"
-        ];
-
-        (function burst() {
-          confetti({
-            particleCount: 7,
-            angle: 60,
-            spread: 65,
-            origin: { x: 0 },
-            colors
-          });
-
-          confetti({
-            particleCount: 7,
-            angle: 120,
-            spread: 65,
-            origin: { x: 1 },
-            colors
-          });
-
-          if (Date.now() < end) {
-            requestAnimationFrame(burst);
-          }
-        })();
-      }
-
-      window.setTimeout(() => {
-        $("letter-card").scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }, 900);
-    });
-  </script>
+  <!-- MUSIC PLAYER -->
+  <aside id="music-player" class="music-player">
+    <button id="music-toggle" type="button" aria-label="Play or pause birthday music">▶</button>
+    <div class="music-info">
+      <strong>A little background music</strong>
+      <span id="music-status">Press play to listen</span>
+    </div>
+    <audio id="birthday-music" src="fireflies.mp3" loop preload="none"></audio>
+  </aside>
+
+  <footer>Made with friendship, care, and a little magic ♡</footer>
+  <script src="script.js"></script>
 </body>
 </html>
