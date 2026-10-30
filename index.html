@@ -2,291 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#191027">
-  <meta name="description" content="A little birthday surprise made with friendship and care.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7eaf4">
+  <meta name="description" content="A little birthday surprise made with friendship, memories, and love.">
   <title>A Little Surprise ✨</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="starfield" aria-hidden="true"></div>
-  <div id="celebration" class="celebration" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div id="confetti-layer" aria-hidden="true"></div>
+  <div class="music-control" aria-label="Birthday music player">
+    <button id="music-toggle" class="music-toggle" type="button" aria-label="Play birthday music">♫</button>
+    <span id="music-status" role="status">Tap to play the birthday song</span>
+  </div>
+  <audio id="birthday-music" preload="none" loop playsinline></audio>
 
-  <main>
-    <!-- 1. PASSWORD -->
-    <section id="gate" class="screen active">
-      <div class="card hero-card">
-        <div class="moon">☾</div>
-        <p class="eyebrow">A LITTLE SECRET JUST FOR YOU</p>
-        <h1>A Little<br><em>Surprise</em></h1>
-        <p class="muted">Some memories, a few wishes, and a little bit of magic are waiting inside.</p>
-        <form id="password-form">
-          <label for="password">Your secret password</label>
-          <input id="password" type="password" placeholder="Enter the secret code" autocomplete="off" required>
-          <button class="primary" type="submit">Unlock the magic ✨</button>
-          <p id="password-error" class="error" role="alert"></p>
-        </form>
-        <p class="tiny">A little corner of the internet, made just for you ♡</p>
-      </div>
-    </section>
-
-    <!-- 2. SEALED ENVELOPE -->
-    <section id="envelope-screen" class="screen">
-      <div class="card">
-        <p class="eyebrow">BEFORE THE CELEBRATION</p>
-        <h2>A little letter is waiting</h2>
-        <p class="muted">There is a whole little surprise tucked inside this envelope.</p>
-        <button id="envelope-button" class="envelope" type="button">
-          <span class="envelope-art">💌</span>
-          <span class="envelope-label">TAP TO OPEN IT</span>
-        </button>
-        <p class="prompt">Go on… open it ♡</p>
-      </div>
-    </section>
-
-    <!-- 3. BIRTHDAY CAKE -->
-    <section id="cake-screen" class="screen">
-      <div class="card">
-        <p class="eyebrow">YOUR SPECIAL MOMENT</p>
-        <h2>Happy Birthday, Alisha!</h2>
-        <p>Close your eyes for a moment, make a wish, and get ready.</p>
-        <div class="cake-scene">
-          <div class="cake">
-            <div id="flame" class="flame"></div>
-            <div class="wick"></div>
-            <div class="candle"></div>
-            <div class="icing"></div>
-            <div class="cake-body"></div>
-            <div class="cake-plate"></div>
+  <main id="app">
+    <section id="gate" class="screen gate-screen active" aria-labelledby="gate-title">
+      <div class="gate-card glass">
+        <div class="tiny-stars" aria-hidden="true">✦　⋆　✧　⋆　✦</div>
+        <p class="eyebrow">A little something made just for you</p>
+        <h1 id="gate-title">A Little <em>Surprise</em></h1>
+        <p class="soft-copy">Some people make ordinary days feel special.<br>This little world is for one of them.</p>
+        <form id="password-form" class="password-form">
+          <label for="password-input">A tiny secret to enter</label>
+          <div class="password-row">
+            <input id="password-input" type="password" inputmode="numeric" autocomplete="off" placeholder="Enter the code" maxlength="20" required>
+            <button class="primary-btn" type="submit">Unlock ✨</button>
           </div>
-        </div>
-        <p id="cake-message" class="highlight">Your wish can stay a secret. 💗</p>
-        <p id="countdown" class="countdown" aria-live="polite"></p>
-        <button id="blow-button" class="primary" type="button">I'm ready! Blow the candle 🎂</button>
+          <p id="password-error" class="error-message" role="status"></p>
+        </form>
+        <p class="micro-note">Made with care, just for your birthday ♡</p>
       </div>
     </section>
 
-    <!-- 4. STORY AND LIVE AGE COUNTER -->
-    <section id="story" class="screen">
-      <div class="card">
-        <p class="eyebrow">ANOTHER CHAPTER BEGINS</p>
-        <h2>Look how far you've come ✨</h2>
-        <p>One life, so many little moments, and so many beautiful things still ahead.</p>
-
-        <h3 class="subheading">Your journey so far</h3>
-        <div class="age-grid">
-          <div><strong id="age-years">0</strong><span>Years</span></div>
-          <div><strong id="age-months">0</strong><span>Months</span></div>
-          <div><strong id="age-days">0</strong><span>Days</span></div>
-          <div><strong id="age-hours">0</strong><span>Hours</span></div>
-          <div><strong id="age-minutes">0</strong><span>Minutes</span></div>
-          <div><strong id="age-seconds">0</strong><span>Seconds</span></div>
-        </div>
-
-        <div class="birthday-countdown">
-          <p class="eyebrow">UNTIL YOUR NEXT BIRTHDAY</p>
-          <p id="birthday-countdown">Counting the moments…</p>
-        </div>
-
-        <p class="muted">Here's to becoming more yourself, one day at a time.</p>
-        <button class="primary" data-next="quiz">Let's play a little quiz →</button>
-      </div>
-    </section>
-
-    <!-- 5. FRIENDSHIP QUIZ -->
-    <section id="quiz" class="screen">
-      <div class="card">
-        <p class="eyebrow">FRIENDSHIP CHECK</p>
-        <h2>A tiny quiz for you</h2>
-        <p id="quiz-progress" class="muted">Question 1 of 3</p>
-        <h3 id="quiz-question"></h3>
-        <div id="quiz-answers" class="answers"></div>
-        <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
-        <button id="quiz-next" class="primary" type="button" hidden>Next question →</button>
-        <div id="quiz-complete" hidden>
-          <h3>Quiz complete! 💗</h3>
-          <p>Friendship isn't about perfect answers. It's about the moments we share.</p>
-          <button class="primary" data-next="photos">Let's look at memories →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. ORIGINAL PHOTOS AND VIDEO -->
-    <section id="photos" class="screen">
-      <div class="card wide">
-        <p class="eyebrow">OUR LITTLE MEMORY BOOK</p>
-        <h2>Moments worth keeping</h2>
-        <p class="muted">A few snapshots for a day worth remembering.</p>
-
-        <div class="gallery">
-          <figure>
-            <img src="photo1.jpg" alt="A friendship memory" loading="lazy">
-            <figcaption>A little moment to keep ♡</figcaption>
-          </figure>
-          <figure>
-            <img src="photo2.jpg" alt="Another special memory" loading="lazy">
-            <figcaption>One for the memory book ✨</figcaption>
-          </figure>
-          <figure>
-            <img src="photo3.jpg" alt="A favorite moment" loading="lazy">
-            <figcaption>More memories to come 💗</figcaption>
-          </figure>
-        </div>
-
-        <div class="video-memory">
-          <p class="eyebrow">A MOMENT IN MOTION</p>
-          <video id="memory-video" controls playsinline preload="metadata">
-            <source src="memory-video.mp4" type="video/mp4">
-            Your browser does not support this video.
-          </video>
-          <p class="tiny">Your original video belongs here.</p>
-        </div>
-
-        <button class="primary" data-next="timeline">Our friendship story →</button>
-      </div>
-    </section>
-
-    <!-- 7. FRIENDSHIP TIMELINE -->
-    <section id="timeline" class="screen">
-      <div class="card">
-        <p class="eyebrow">A FRIENDSHIP STORY</p>
-        <h2>Little moments, lasting meaning</h2>
-        <div class="timeline">
-          <article class="timeline-item">
-            <span class="timeline-dot">✧</span>
-            <div>
-              <h3>Where it began</h3>
-              <p>Two people crossed paths, and a friendship slowly became something special.</p>
-            </div>
-          </article>
-          <article class="timeline-item">
-            <span class="timeline-dot">♡</span>
-            <div>
-              <h3>Getting to know you</h3>
-              <p>Conversations, little jokes, and ordinary days started becoming memories.</p>
-            </div>
-          </article>
-          <article class="timeline-item">
-            <span class="timeline-dot">☾</span>
-            <div>
-              <h3>Being there</h3>
-              <p>Some of the most meaningful friendships show their value when life gets difficult.</p>
-            </div>
-          </article>
-          <article class="timeline-item">
-            <span class="timeline-dot">✿</span>
-            <div>
-              <h3>More chapters ahead</h3>
-              <p>There are still new experiences, more laughter, and memories we haven't made yet.</p>
-            </div>
-          </article>
-        </div>
-        <button class="primary" data-next="appreciation">A few things I appreciate →</button>
-      </div>
-    </section>
-
-    <!-- 8. APPRECIATION -->
-    <section id="appreciation" class="screen">
-      <div class="card">
-        <p class="eyebrow">THINGS WORTH SAYING</p>
-        <h2>A little appreciation</h2>
-        <div class="appreciation-list">
-          <article class="appreciation-item">
-            <span>♡</span>
-            <p>Your honesty. It makes a friendship feel real.</p>
-          </article>
-          <article class="appreciation-item">
-            <span>✧</span>
-            <p>Your presence. Sometimes just being there means a lot.</p>
-          </article>
-          <article class="appreciation-item">
-            <span>🌷</span>
-            <p>Your individuality. The world is better when people get to be themselves.</p>
-          </article>
-          <article class="appreciation-item">
-            <span>☀</span>
-            <p>The memories we've made, and all the good ones still waiting for us.</p>
-          </article>
-        </div>
-        <button class="primary" data-next="jar">Open the wish jar →</button>
-      </div>
-    </section>
-
-    <!-- 9. FOUR-MESSAGE WISH JAR -->
-    <section id="jar" class="screen">
-      <div class="card">
-        <p class="eyebrow">FOUR LITTLE WISHES</p>
-        <h2>A jar full of good things</h2>
-        <p>Tap the jar to reveal a message. One wish at a time.</p>
-        <button id="jar-button" class="jar" type="button" aria-label="Tap to reveal the next wish">
-          <span class="jar-emoji">🏺</span>
-          <span id="jar-prompt">TAP THE JAR ♡</span>
+    <section id="envelope-screen" class="screen" aria-labelledby="envelope-heading" hidden>
+      <div class="section-shell centered">
+        <p class="eyebrow">Before anything else…</p>
+        <h2 id="envelope-heading">A message is waiting for you</h2>
+        <p class="lead">Take a little breath. This first part is just for you.</p>
+        <button id="envelope-button" class="envelope-button" aria-label="Open your birthday envelope">
+          <span class="envelope-glow"></span>
+          <span class="envelope" aria-hidden="true">
+            <span class="envelope-paper">For Alisha<br><small>with so much appreciation ♡</small></span>
+            <span class="envelope-flap"></span>
+            <span class="envelope-front"></span>
+            <span class="envelope-seal">♡</span>
+          </span>
+          <span class="open-prompt">OPEN YOUR ENVELOPE</span>
+          <span class="tap-hint">Tap the envelope to begin</span>
         </button>
-        <p id="jar-count" class="muted">0 of 4 wishes discovered</p>
-        <div id="memory-message" class="memory-message" aria-live="polite"></div>
-        <button id="letter-unlock" class="primary" type="button" hidden>There's a letter for you 💌</button>
-      </div>
-    </section>
-
-    <!-- 10. FUTURE WISHES TIME CAPSULE -->
-    <section id="time-capsule" class="screen">
-      <div class="card">
-        <p class="eyebrow">A NOTE FOR YOUR FUTURE SELF</p>
-        <h2>A tiny time capsule ✨</h2>
-        <p>Write a hope, a dream, or something you want your future self to remember.</p>
-        <label for="future-wish">Your wish for the future</label>
-        <textarea id="future-wish" rows="4" maxlength="500" placeholder="Dear future me…"></textarea>
-        <button id="save-wish" class="primary" type="button">Seal my wish ♡</button>
-        <p id="wish-status" class="feedback" aria-live="polite"></p>
-        <div id="saved-wish" class="saved-wish" hidden></div>
-        <p class="tiny">This stays in this browser on this device. It isn't sent to anyone.</p>
-        <button class="secondary" data-next="letter">Read your birthday letter →</button>
-      </div>
-    </section>
-
-    <!-- 11. BIRTHDAY LETTER -->
-    <section id="letter" class="screen">
-      <article class="card letter-card">
-        <p class="eyebrow">A FEW WORDS FROM ME</p>
-        <h2>Happy Birthday, Alisha! ♡</h2>
-        <div class="letter-text">
-          <p>Some people enter our lives and make ordinary days feel a little brighter. I'm genuinely glad our paths crossed, and I'm grateful that our friendship became something I can appreciate.</p>
-          <p>Thank you for being honest, for being yourself, and for being there during moments when life wasn't easy. Sometimes people don't realize how much the little things they do can mean to someone.</p>
-          <p>For your birthday, I hope you find reasons to smile even on difficult days. I hope you get opportunities that excite you, people who treat you kindly, and memories that make you proud of the person you're becoming.</p>
-          <p>Keep being yourself, keep chasing the things that matter to you, and don't forget that you deserve good things in life.</p>
-          <p class="signoff">Happy Birthday once again!<br>Here's to our friendship and many more memories. 💗</p>
+        <div id="envelope-message" class="letter-reveal" hidden>
+          <p class="handwritten">Happy Birthday, Alisha! ♡</p>
+          <p>Today is a reminder that the world became a little kinder to me when our friendship began. You’ve been there during days that weren’t easy, and I’ll always appreciate the honesty, warmth, and memories you’ve brought into my life.</p>
+          <p>This little surprise is my way of saying thank you for being you. There’s more waiting ahead…</p>
+          <button id="to-cake-button" class="primary-btn">Continue to your birthday cake →</button>
         </div>
-        <button class="primary" id="finish-button" type="button">One last little surprise ✨</button>
-      </article>
+      </div>
     </section>
 
-    <!-- 12. FINALE -->
-    <section id="final" class="screen">
-      <div class="card">
-        <div class="moon">✧</div>
-        <p class="eyebrow">THE END OF THIS LITTLE SURPRISE</p>
-        <h2>Keep shining, Alisha.</h2>
-        <p>I hope this little corner of the internet gives you a reason to smile today.</p>
-        <p class="highlight">Happy Birthday! 🎂💗</p>
-        <p>Here's to the memories we've made and the ones still to come.</p>
-        <button class="secondary" id="replay-button" type="button">Experience it again ↺</button>
+    <section id="cake-screen" class="screen" aria-labelledby="cake-heading" hidden>
+      <div class="section-shell centered cake-shell">
+        <p class="eyebrow">Make a birthday wish</p>
+        <h2 id="cake-heading">One wish. A thousand possibilities.</h2>
+        <p class="lead">When you’re ready, tap the button and follow the countdown.</p>
+        <div class="cake-stage" id="cake-stage">
+          <div class="sparkle sparkle-a">✦</div><div class="sparkle sparkle-b">✧</div><div class="sparkle sparkle-c">✦</div>
+          <div class="cake">
+            <div class="candle">
+              <div id="flame" class="flame"></div>
+              <div class="wick"></div>
+            </div>
+            <div class="icing-drips"></div>
+            <div class="cake-top"></div>
+            <div class="cake-layer cake-layer-top"></div>
+            <div class="cake-layer cake-layer-bottom"></div>
+            <div class="cake-plate"></div>
+            <div class="cake-decoration">♡　✦　♡</div>
+          </div>
+          <div id="countdown" class="countdown" aria-live="polite" aria-atomic="true"></div>
+          <div id="cake-balloons" class="balloon-field" aria-hidden="true"></div>
+        </div>
+        <p id="cake-status" class="cake-status">Your wish is yours to keep ✨</p>
+        <button id="blow-button" class="primary-btn big-btn">Ready? Start the countdown</button>
+        <div id="birthday-reveal" class="birthday-reveal" hidden>
+          <p class="birthday-script">Happy Birthday, Alisha!</p>
+          <p class="lead">May your next chapter be full of gentle surprises, brave dreams, and people who show up for you.</p>
+          <button id="to-memories-button" class="primary-btn">Let’s keep going →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="memories-screen" class="screen" aria-labelledby="memories-heading" hidden>
+      <div class="section-shell">
+        <p class="eyebrow">Little moments, lovely memories</p>
+        <h2 id="memories-heading">Our school-day scrapbook</h2>
+        <p class="lead">Little school memories, saved like pages in a scrapbook. ♡</p>
+        <div class="photo-grid">
+          <figure class="photo-card photo-tall">
+            <img src="assets/photo1.jpg" alt="Original school and friendship memory photo 1" loading="lazy">
+            <figcaption>School days, little moments, forever memories. ♡</figcaption>
+          </figure>
+          <figure class="photo-card">
+            <img src="assets/photo2.jpg" alt="Original school and friendship memory photo 2" loading="lazy">
+            <figcaption>A page from our school-day story ✨</figcaption>
+          </figure>
+          <figure class="photo-card photo-wide">
+            <img src="assets/photo3.jpg" alt="Original school and friendship memory photo 3" loading="lazy">
+            <figcaption>One more memory to keep close. 🌷</figcaption>
+          </figure>
+        </div>
+        <div class="section-actions"><button class="primary-btn" data-next="friendship-screen">A few things I appreciate →</button></div>
+      </div>
+    </section>
+
+    <section id="friendship-screen" class="screen" aria-labelledby="friendship-heading" hidden>
+      <div class="section-shell">
+        <p class="eyebrow">A friendship worth celebrating</p>
+        <h2 id="friendship-heading">Things I hope you never forget</h2>
+        <div class="appreciation-list">
+          <article class="appreciation-card"><span>01</span><div><h3>Your honesty</h3><p>You make it easier to trust people and be real. That is a rare thing, and I value it.</p></div></article>
+          <article class="appreciation-card"><span>02</span><div><h3>Your presence</h3><p>You’ve been around when life felt heavy. Even if you didn’t realise how much it helped, it mattered.</p></div></article>
+          <article class="appreciation-card"><span>03</span><div><h3>The memories we’re still making</h3><p>There are so many ordinary days left to turn into stories we’ll laugh about later. I hope we get plenty of them.</p></div></article>
+        </div>
+        <div class="timeline">
+          <h3>Our little timeline</h3>
+          <div class="timeline-item"><span class="timeline-dot"></span><p><strong>The beginning</strong><br>Two people who met, talked, and slowly became good friends.</p></div>
+          <div class="timeline-item"><span class="timeline-dot"></span><p><strong>The getting-to-know-you days</strong><br>Small conversations became familiar moments and real trust.</p></div>
+          <div class="timeline-item"><span class="timeline-dot"></span><p><strong>Still unfolding</strong><br>More memories, more laughs, and more chances to show up for each other.</p></div>
+        </div>
+        <div class="section-actions"><button class="primary-btn" data-next="quiz-screen">Ready for a tiny quiz? →</button></div>
+      </div>
+    </section>
+
+    <section id="quiz-screen" class="screen" aria-labelledby="quiz-heading" hidden>
+      <div class="section-shell centered">
+        <p class="eyebrow">A little friendship game</p>
+        <h2 id="quiz-heading">How well do you know this friendship?</h2>
+        <p class="lead">Just for fun — no pressure, no skipping. 💗</p>
+        <div id="quiz-card" class="quiz-card">
+          <div class="quiz-progress"><span id="quiz-progress-text">Question 1 of 4</span><div class="progress-track"><div id="quiz-progress-bar"></div></div></div>
+          <h3 id="quiz-question"></h3>
+          <div id="quiz-options" class="quiz-options"></div>
+          <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+          <button id="quiz-next" class="primary-btn" disabled>Next question →</button>
+        </div>
+        <div id="quiz-finished" class="quiz-finished" hidden>
+          <div class="finished-star">✧</div>
+          <h3>You made it to the end!</h3>
+          <p>Quiz completed. Your prize is this reminder: you deserve a birthday full of joy, peace, and good surprises.</p>
+          <button class="primary-btn" data-next="jar-screen">Open the wish jar →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="jar-screen" class="screen" aria-labelledby="jar-heading" hidden>
+      <div class="section-shell centered">
+        <p class="eyebrow">Tiny wishes, just for you</p>
+        <h2 id="jar-heading">The wish jar</h2>
+        <p class="lead">Every note holds a little wish for your new year.</p>
+        <div class="jar-wrap">
+          <div id="wish-note" class="wish-note" aria-live="polite" hidden></div>
+          <button id="jar-button" class="jar-button" aria-label="Tap the wish jar to reveal a message">
+            <span class="jar-lid"></span><span class="jar-neck"></span>
+            <span class="jar-body"><span class="jar-heart">♡</span><span class="jar-paper paper-one"></span><span class="jar-paper paper-two"></span><span class="jar-paper paper-three"></span><span class="jar-shine"></span></span>
+          </button>
+        </div>
+        <p id="jar-prompt" class="jar-prompt">TAP THE JAR TO OPEN A WISH ✨</p>
+        <p id="jar-count" class="jar-count">Wish 0 of 4</p>
+        <button id="letter-unlock" class="primary-btn" hidden>There’s one last letter for you ♡</button>
+      </div>
+    </section>
+
+    <section id="letter-screen" class="screen" aria-labelledby="letter-heading" hidden>
+      <div class="section-shell centered">
+        <p class="eyebrow">One last thing</p>
+        <h2 id="letter-heading">A letter for your birthday</h2>
+        <article class="final-letter">
+          <p class="handwritten">Dear Alisha,</p>
+          <p>Happy Birthday! I hope today reminds you how much goodness you bring into the lives around you. I’m genuinely grateful that our paths crossed and that, from being people who met, we became such good friends.</p>
+          <p>Thank you for being honest with me, for being present through difficult days, and for giving me memories I’ll always be glad to have. You may not always see the difference you make, but your kindness and the way you show up matter more than you know.</p>
+          <p>As you step into another year, I hope you find courage for the things you dream about, calm in the moments that feel uncertain, and happiness in the little things. I hope you meet people who treat your heart gently and opportunities that help you grow into everything you want to be.</p>
+          <p><strong>Never forget: you deserve good things, not just on your birthday, but on the ordinary days too.</strong></p>
+          <p>Here’s to more laughs, more memories, and a friendship that keeps growing in its own beautiful way.</p>
+          <p class="handwritten signoff">Happy Birthday, Alisha. Always wishing you well. ♡</p>
+        </article>
+        <div class="section-actions"><button id="final-button" class="primary-btn">One last birthday sparkle ✨</button></div>
+        <p id="final-message" class="final-message" hidden>May this year be softer, brighter, and full of beautiful beginnings. 🌷</p>
+      </div>
+    </section>
+
+    <section id="moon-screen" class="screen moon-screen" aria-labelledby="moon-heading" hidden>
+      <div class="moon-shell centered">
+        <p class="moon-eyebrow">A little note from the night sky</p>
+        <h2 id="moon-heading">The Moon Was There When You Were Born</h2>
+        <figure class="moon-photo-frame">
+          <img src="assets/birthday-moon.jpg" alt="The moon on the night Alisha was born" loading="lazy">
+          <figcaption>15 November 2009 · A night worth remembering</figcaption>
+        </figure>
+        <p class="moon-message">On the night you arrived, the moon was shining quietly above the world. It had no idea that someone would grow up to bring so much warmth into the lives around her.</p>
+        <p class="moon-message moon-highlight">The moon has its own way of shining, and so do you. Keep being your own kind of light, Alisha. 🌙</p>
+        <button id="replay-button" class="moon-replay" type="button">Replay the surprise ↺</button>
       </div>
     </section>
   </main>
 
-  <!-- MUSIC PLAYER -->
-  <aside id="music-player" class="music-player">
-    <button id="music-toggle" type="button" aria-label="Play or pause birthday music">▶</button>
-    <div class="music-info">
-      <strong>A little background music</strong>
-      <span id="music-status">Press play to listen</span>
-    </div>
-    <audio id="birthday-music" src="fireflies.mp3" loop preload="none"></audio>
-  </aside>
-
-  <footer>Made with friendship, care, and a little magic ♡</footer>
+  <footer class="site-footer">Made with friendship, memories & a little bit of magic ♡</footer>
   <script src="script.js"></script>
 </body>
 </html>

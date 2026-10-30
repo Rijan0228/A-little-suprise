@@ -1,568 +1,299 @@
-"use strict";
+(() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const PASSWORD = "1234";
+  let currentScreen = "gate";
+  const visitedScreens = new Set(["gate"]);
 
-const $ = (id) => document.getElementById(id);
-
-const PASSWORD = "1234";
-
-// Alisha's birth date: Nepal time.
-const BIRTHDAY = new Date("2009-11-15T00:00:00+05:45");
-
-// Birthday celebration date and time: November 15, 2026, at 9:15 PM Nepal time.
-const CELEBRATION_DATE = new Date("2026-11-15T21:15:00+05:45");
-
-let quizIndex = 0;
-let quizAnswered = false;
-let wishesRead = 0;
-let countdownRunning = false;
-let musicPlaying = false;
-
-const quizQuestions = [
-  {
-    question: "What makes a friendship truly special?",
-    answers: [
-      "Being there for each other",
-      "Keeping score of every favor",
-      "Never talking about anything"
-    ],
-    correct: 0,
-    feedback: "It's the little moments of support that matter. 💗"
-  },
-  {
-    question: "What's the best kind of memory?",
-    answers: [
-      "A moment that makes us smile",
-      "One that we must forget",
-      "One that never happened"
-    ],
-    correct: 0,
-    feedback: "The simplest memories can mean the most. ✨"
-  },
-  {
-    question: "What's my birthday wish for you?",
-    answers: [
-      "More happiness, peace, and opportunities",
-      "More homework forever",
-      "No more birthdays"
-    ],
-    correct: 0,
-    feedback: "Exactly! I hope your year is full of good things. 🎂"
-  }
-];
-
-const jarWishes = [
-  "I hope you always find a reason to smile, even on an ordinary day. 💗",
-  "May you find the courage to chase the dreams that matter to you. ✨",
-  "I hope you meet people who appreciate your honesty and kindness. 🌷",
-  "Most of all, I hope this next chapter brings you beautiful memories. Here's to you! ♡"
-];
-
-/* ---------------------------
-   SCREEN NAVIGATION
---------------------------- */
-
-function showScreen(id) {
-  const target = $(id);
-
-  if (!target) return;
-
-  document.querySelectorAll(".screen").forEach((screen) => {
-    screen.classList.remove("active");
-  });
-
-  target.classList.add("active");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-/* ---------------------------
-   PASSWORD GATE
---------------------------- */
-
-$("password-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-
-  if ($("password").value === PASSWORD) {
-    $("password-error").textContent = "";
-    $("password").value = "";
-    showScreen("envelope-screen");
-  } else {
-    $("password-error").textContent =
-      "Not quite! Try the secret code again. 💌";
-
-    $("password").value = "";
-    $("password").focus();
-  }
-});
-
-/* ---------------------------
-   OPEN THE ENVELOPE
---------------------------- */
-
-$("envelope-button").addEventListener("click", () => {
-  const button = $("envelope-button");
-
-  if (button.disabled) return;
-
-  button.disabled = true;
-  button.innerHTML =
-    '<span class="envelope-art">💖</span>' +
-    '<span class="envelope-label">OPENED WITH LOVE</span>';
-
-  setTimeout(() => {
-    showScreen("cake-screen");
-  }, 650);
-});
-
-/* ---------------------------
-   BIRTHDAY CANDLE COUNTDOWN
---------------------------- */
-
-$("blow-button").addEventListener("click", async () => {
-  if (countdownRunning) return;
-
-  countdownRunning = true;
-  $("blow-button").disabled = true;
-  $("cake-message").textContent =
-    "Make a wish. This moment is yours. 💗";
-
-  for (const number of ["3", "2", "1"]) {
-    $("countdown").textContent = number;
-
-    await new Promise((resolve) => {
-      setTimeout(resolve, 850);
+  function showScreen(id) {
+    const next = $(id);
+    if (!next) return;
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.hidden = screen.id !== id;
+      screen.classList.toggle("active", screen.id === id);
     });
+    currentScreen = id;
+    visitedScreens.add(id);
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   }
 
-  $("countdown").textContent = "✨";
-  $("flame").classList.add("out");
-
-  $("cake-message").textContent =
-    "Your wish is on its way. Happy Birthday, Alisha!";
-
-  launchCelebration();
-
-  setTimeout(() => {
-    showScreen("story");
-  }, 2900);
-});
-
-/* ---------------------------
-   BALLOONS AND CONFETTI
---------------------------- */
-
-function launchCelebration() {
-  const container = $("celebration");
-
-  const balloonColors = [
-    "#f4b9d4",
-    "#e4c9ff",
-    "#ffe2a7",
-    "#f7d7e9",
-    "#cbb8ff",
-    "#fff0da"
+  // Music: GitHub Pages paths are case-sensitive. Try common root/assets names.
+  const music = $("birthday-music");
+  const musicButton = $("music-toggle");
+  const musicStatus = $("music-status");
+  const musicCandidates = [
+    "./fireflies.mp3", "./Fireflies.mp3", "./assets/fireflies.mp3", "./assets/Fireflies.mp3"
   ];
+  let musicReady = false;
+  let musicPlaying = false;
 
-  const confettiColors = [
-    "#f4b9d4",
-    "#e4c9ff",
-    "#ffe2a7",
-    "#ffffff",
-    "#d991bd"
-  ];
-
-  container.innerHTML = "";
-  container.classList.remove("show");
-
-  for (let i = 0; i < 22; i++) {
-    const balloon = document.createElement("span");
-
-    balloon.className = "balloon";
-    balloon.style.left = `${(i * 43) % 100}%`;
-
-    balloon.style.setProperty(
-      "--balloon-color",
-      balloonColors[i % balloonColors.length]
-    );
-
-    balloon.style.setProperty(
-      "--drift",
-      `${((i % 5) - 2) * 28}px`
-    );
-
-    balloon.style.animationDelay = `${(i % 8) * 0.09}s`;
-
-    container.appendChild(balloon);
-  }
-
-  for (let i = 0; i < 55; i++) {
-    const piece = document.createElement("span");
-
-    piece.className = "confetti-piece";
-    piece.style.left = `${Math.random() * 100}%`;
-
-    piece.style.setProperty(
-      "--confetti-color",
-      confettiColors[i % confettiColors.length]
-    );
-
-    piece.style.setProperty(
-      "--drift",
-      `${Math.random() * 160 - 80}px`
-    );
-
-    piece.style.animationDelay = `${Math.random() * 0.9}s`;
-
-    container.appendChild(piece);
-  }
-
-  requestAnimationFrame(() => {
-    container.classList.add("show");
-  });
-
-  setTimeout(() => {
-    container.classList.remove("show");
-    container.innerHTML = "";
-  }, 3400);
-}
-
-/* ---------------------------
-   LIVE AGE COUNTER
---------------------------- */
-
-function updateAge() {
-  const now = new Date();
-
-  let years = now.getFullYear() - BIRTHDAY.getFullYear();
-  let months = now.getMonth() - BIRTHDAY.getMonth();
-  let days = now.getDate() - BIRTHDAY.getDate();
-
-  if (days < 0) {
-    months--;
-
-    const previousMonthDays = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      0
-    ).getDate();
-
-    days += previousMonthDays;
-  }
-
-  if (months < 0) {
-    years--;
-    months += 12;
-  }
-
-  // Calculate the time elapsed since the last whole calendar day.
-  const elapsedToday =
-    ((now.getHours() - BIRTHDAY.getHours()) * 60 +
-      (now.getMinutes() - BIRTHDAY.getMinutes())) * 60 +
-    (now.getSeconds() - BIRTHDAY.getSeconds());
-
-  let remainingSeconds = (
-    (now.getTime() - new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    ).getTime()) / 1000
-  );
-
-  // Use the current clock for the smaller live units.
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-
-  $("age-years").textContent = Math.max(0, years);
-  $("age-months").textContent = Math.max(0, months);
-  $("age-days").textContent = Math.max(0, days);
-  $("age-hours").textContent = hours;
-  $("age-minutes").textContent = minutes;
-  $("age-seconds").textContent = seconds;
-}
-
-function updateBirthdayCountdown() {
-  const now = new Date();
-
-  let target = new Date(CELEBRATION_DATE);
-
-  if (now >= target) {
-    target = new Date("2027-11-15T21:15:00+05:45");
-  }
-
-  let difference = Math.max(0, target.getTime() - now.getTime());
-
-  const days = Math.floor(difference / 86400000);
-  difference %= 86400000;
-
-  const hours = Math.floor(difference / 3600000);
-  difference %= 3600000;
-
-  const minutes = Math.floor(difference / 60000);
-  difference %= 60000;
-
-  const seconds = Math.floor(difference / 1000);
-
-  $("birthday-countdown").textContent =
-    `${days} days · ${hours} hours · ${minutes} minutes · ${seconds} seconds`;
-}
-
-function updateClocks() {
-  updateAge();
-  updateBirthdayCountdown();
-}
-
-updateClocks();
-setInterval(updateClocks, 1000);
-
-/* ---------------------------
-   FRIENDSHIP QUIZ
---------------------------- */
-
-function renderQuestion() {
-  const question = quizQuestions[quizIndex];
-
-  quizAnswered = false;
-
-  $("quiz-progress").textContent =
-    `Question ${quizIndex + 1} of ${quizQuestions.length}`;
-
-  $("quiz-question").textContent = question.question;
-  $("quiz-feedback").textContent = "";
-  $("quiz-next").hidden = true;
-  $("quiz-complete").hidden = true;
-  $("quiz-answers").hidden = false;
-  $("quiz-answers").innerHTML = "";
-
-  question.answers.forEach((answer, index) => {
-    const button = document.createElement("button");
-
-    button.type = "button";
-    button.className = "answer";
-    button.textContent = answer;
-
-    button.addEventListener("click", () => {
-      if (quizAnswered) return;
-
-      quizAnswered = true;
-
-      $("quiz-answers")
-        .querySelectorAll(".answer")
-        .forEach((item) => {
-          item.disabled = true;
-        });
-
-      button.classList.add("chosen");
-
-      $("quiz-feedback").textContent =
-        index === question.correct
-          ? question.feedback
-          : "That's okay! Friendship is about understanding, not perfect answers. 💗";
-
-      if (quizIndex < quizQuestions.length - 1) {
-        $("quiz-next").hidden = false;
-      } else {
-        $("quiz-answers").hidden = true;
-        $("quiz-progress").textContent = "Quiz completed! ✨";
-        $("quiz-complete").hidden = false;
-      }
-    });
-
-    $("quiz-answers").appendChild(button);
-  });
-}
-
-$("quiz-next").addEventListener("click", () => {
-  if (!quizAnswered) return;
-
-  quizIndex++;
-
-  if (quizIndex < quizQuestions.length) {
-    renderQuestion();
-  }
-});
-
-/* ---------------------------
-   SECTION NAVIGATION
---------------------------- */
-
-document.querySelectorAll("[data-next]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const destination = button.dataset.next;
-
-    if (destination === "quiz") {
-      quizIndex = 0;
-      renderQuestion();
+  async function locateMusic() {
+    if (musicReady) return true;
+    for (const path of musicCandidates) {
+      try {
+        const response = await fetch(path, { method: "HEAD", cache: "no-store" });
+        if (response.ok) {
+          music.src = path;
+          music.load();
+          musicReady = true;
+          musicStatus.textContent = "Birthday song ready ♡";
+          return true;
+        }
+      } catch (_) { /* Try the next known filename/path. */ }
     }
-
-    showScreen(destination);
-  });
-});
-
-/* ---------------------------
-   WISH JAR
---------------------------- */
-
-$("jar-button").addEventListener("click", () => {
-  if (wishesRead >= jarWishes.length) return;
-
-  const message = $("memory-message");
-
-  message.classList.remove("reveal");
-
-  // Restart the animation for each new message.
-  void message.offsetWidth;
-
-  message.textContent = jarWishes[wishesRead];
-  message.classList.add("reveal");
-
-  wishesRead++;
-
-  $("jar-count").textContent =
-    `${wishesRead} of ${jarWishes.length} wishes discovered`;
-
-  if (wishesRead === jarWishes.length) {
-    $("jar-prompt").textContent = "ALL WISHES DISCOVERED ♡";
-    $("letter-unlock").hidden = false;
-  }
-});
-
-$("letter-unlock").addEventListener("click", () => {
-  if (wishesRead !== jarWishes.length) return;
-
-  showScreen("time-capsule");
-});
-
-/* ---------------------------
-   FUTURE-WISH TIME CAPSULE
---------------------------- */
-
-$("save-wish").addEventListener("click", () => {
-  const wish = $("future-wish").value.trim();
-
-  if (!wish) {
-    $("wish-status").textContent =
-      "Write a little wish before sealing your time capsule. 💌";
-    return;
+    musicStatus.textContent = "Song not found — add fireflies.mp3 to the repository root";
+    return false;
   }
 
-  try {
-    localStorage.setItem("alishaFutureWish", wish);
-
-    $("wish-status").textContent =
-      "Your wish has been sealed in this browser. ✨";
-
-    $("saved-wish").textContent = wish;
-    $("saved-wish").hidden = false;
-  } catch (error) {
-    $("wish-status").textContent =
-      "Your browser couldn't save this wish. You can keep it in the box above.";
-  }
-});
-
-function loadSavedWish() {
-  try {
-    const savedWish = localStorage.getItem("alishaFutureWish");
-
-    if (savedWish) {
-      $("future-wish").value = savedWish;
-      $("saved-wish").textContent = savedWish;
-      $("saved-wish").hidden = false;
-      $("wish-status").textContent =
-        "Your saved wish is waiting here. ♡";
+  musicButton.addEventListener("click", async () => {
+    if (musicPlaying) {
+      music.pause();
+      musicPlaying = false;
+      musicButton.textContent = "♫";
+      musicButton.setAttribute("aria-label", "Play birthday music");
+      musicStatus.textContent = "Music paused";
+      return;
     }
-  } catch (error) {
-    // The time capsule still works if local storage is unavailable.
-  }
-}
-
-loadSavedWish();
-
-/* ---------------------------
-   BIRTHDAY LETTER AND FINALE
---------------------------- */
-
-$("finish-button").addEventListener("click", () => {
-  showScreen("final");
-});
-
-/* ---------------------------
-   BACKGROUND MUSIC PLAYER
---------------------------- */
-
-const music = $("birthday-music");
-const musicToggle = $("music-toggle");
-
-musicToggle.addEventListener("click", async () => {
-  if (musicPlaying) {
-    music.pause();
+    musicStatus.textContent = "Loading song…";
+    const found = await locateMusic();
+    if (!found) return;
+    try {
+      await music.play();
+      musicPlaying = true;
+      musicButton.textContent = "Ⅱ";
+      musicButton.setAttribute("aria-label", "Pause birthday music");
+      musicStatus.textContent = "Now playing ♫";
+    } catch (error) {
+      musicPlaying = false;
+      musicStatus.textContent = error && error.name === "NotSupportedError"
+        ? "This MP3 format/file cannot be played"
+        : "Tap play again — the browser blocked playback";
+    }
+  });
+  music.addEventListener("ended", () => {
     musicPlaying = false;
-    musicToggle.textContent = "▶";
-    $("music-status").textContent = "Music paused";
-    return;
+    musicButton.textContent = "♫";
+    musicButton.setAttribute("aria-label", "Play birthday music");
+  });
+  music.addEventListener("error", () => {
+    musicPlaying = false;
+    musicStatus.textContent = "Could not load the MP3 — check its filename and upload";
+  });
+
+  $("password-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    if ($("password-input").value.trim() === PASSWORD) {
+      $("password-error").textContent = "";
+      showScreen("envelope-screen");
+    } else {
+      $("password-error").textContent = "Not quite — try the little secret code again.";
+      $("password-input").select();
+    }
+  });
+
+  let envelopeOpened = false;
+  $("envelope-button").addEventListener("click", () => {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+    $("envelope-button").classList.add("opened");
+    $("envelope-button").setAttribute("aria-label", "Envelope opened");
+    $("envelope-message").hidden = false;
+    $("envelope-message").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+  $("to-cake-button").addEventListener("click", () => {
+    if (envelopeOpened) showScreen("cake-screen");
+  });
+
+  let cakeStarted = false;
+  $("blow-button").addEventListener("click", async () => {
+    if (cakeStarted) return;
+    cakeStarted = true;
+    $("blow-button").disabled = true;
+    $("cake-status").textContent = "Get ready to make your wish…";
+    for (const n of [3, 2, 1]) {
+      $("countdown").textContent = n;
+      await wait(850);
+    }
+    $("countdown").textContent = "";
+    $("flame").classList.add("out");
+    $("cake-status").textContent = "Wish sent into the universe! ✨";
+    launchBalloons();
+    await wait(1800);
+    $("birthday-reveal").hidden = false;
+    $("cake-status").textContent = "";
+    $("blow-button").hidden = true;
+    makeConfetti(85);
+  });
+  $("to-memories-button").addEventListener("click", () => {
+    if (cakeStarted) showScreen("memories-screen");
+  });
+
+  function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+  function launchBalloons() {
+    const field = $("cake-balloons");
+    field.innerHTML = "";
+    const colors = ["#e9a9cd", "#c8b7ec", "#ffe0a6", "#f7c5d9", "#b9d8d2", "#d9c2f1"];
+    for (let i = 0; i < 24; i++) {
+      const balloon = document.createElement("span");
+      balloon.className = "balloon";
+      balloon.style.left = `${Math.random() * 92 + 2}%`;
+      balloon.style.setProperty("--balloon-color", colors[i % colors.length]);
+      balloon.style.setProperty("--delay", `${Math.random() * .8}s`);
+      balloon.style.setProperty("--duration", `${2.3 + Math.random() * 1.5}s`);
+      balloon.style.width = `${36 + Math.random() * 25}px`;
+      balloon.style.height = `${49 + Math.random() * 31}px`;
+      field.appendChild(balloon);
+    }
+  }
+  function makeConfetti(count) {
+    const layer = $("confetti-layer");
+    const colors = ["#e7a6c9", "#c6b5ed", "#ffdf9e", "#b7d9d1", "#f7c8d8"];
+    for (let i = 0; i < count; i++) {
+      const bit = document.createElement("span");
+      bit.className = "confetti";
+      bit.style.left = `${Math.random() * 100}%`;
+      bit.style.background = colors[i % colors.length];
+      bit.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+      bit.style.setProperty("--delay", `${Math.random() * 1.2}s`);
+      bit.style.setProperty("--dur", `${2.3 + Math.random() * 2.2}s`);
+      layer.appendChild(bit);
+      setTimeout(() => bit.remove(), 6000);
+    }
   }
 
-  try {
-    await music.play();
+  document.querySelectorAll("[data-next]").forEach(button => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.next;
+      // Guard the only gated transitions; the cake and envelope cannot be bypassed.
+      if (target === "friendship-screen" && currentScreen !== "memories-screen") return;
+      if (target === "quiz-screen" && currentScreen !== "friendship-screen") return;
+      if (target === "jar-screen" && currentScreen !== "quiz-screen") return;
+      showScreen(target);
+    });
+  });
 
-    musicPlaying = true;
-    musicToggle.textContent = "Ⅱ";
-    $("music-status").textContent = "Now playing ♫";
-  } catch (error) {
-    $("music-status").textContent =
-      "Add fireflies.mp3 to the website folder";
+  const questions = [
+    { q: "What makes a friendship feel truly safe?", options: ["Being perfect all the time", "Honesty and showing up", "Never disagreeing"], answer: 1, feedback: "Exactly — being real and being there matter. ♡" },
+    { q: "What’s the point of this little website?", options: ["A random internet page", "A friendship-only birthday surprise", "A school assignment"], answer: 1, feedback: "Yep! Just a birthday surprise to celebrate you. 🌷" },
+    { q: "What do I hope you have more of this year?", options: ["Stress and deadlines", "Reasons to doubt yourself", "Peace, joy, and good memories"], answer: 2, feedback: "That’s the wish — more of the good stuff, always. ✨" },
+    { q: "What should you remember after this birthday?", options: ["You deserve good things on ordinary days too", "You must have everything figured out", "You can’t change your plans"], answer: 0, feedback: "That’s the one. You deserve kindness on every kind of day. 💗" }
+  ];
+  let questionIndex = 0;
+  let answered = false;
+  function renderQuestion() {
+    answered = false;
+    const question = questions[questionIndex];
+    $("quiz-progress-text").textContent = `Question ${questionIndex + 1} of ${questions.length}`;
+    $("quiz-progress-bar").style.width = `${((questionIndex + 1) / questions.length) * 100}%`;
+    $("quiz-question").textContent = question.q;
+    $("quiz-feedback").textContent = "";
+    $("quiz-next").disabled = true;
+    $("quiz-next").textContent = questionIndex === questions.length - 1 ? "Finish quiz ✨" : "Next question →";
+    const options = $("quiz-options");
+    options.innerHTML = "";
+    question.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.className = "quiz-option";
+      button.type = "button";
+      button.textContent = option;
+      button.addEventListener("click", () => chooseAnswer(index));
+      options.appendChild(button);
+    });
   }
-});
+  function chooseAnswer(index) {
+    if (answered) return;
+    answered = true;
+    const question = questions[questionIndex];
+    const buttons = [...$("quiz-options").querySelectorAll("button")];
+    buttons.forEach((button, i) => {
+      button.disabled = true;
+      if (i === question.answer) button.classList.add("correct");
+      if (i === index && i !== question.answer) button.classList.add("wrong");
+    });
+    $("quiz-feedback").textContent = index === question.answer ? question.feedback : `A lovely try! ${question.feedback}`;
+    $("quiz-next").disabled = false;
+  }
+  $("quiz-next").addEventListener("click", () => {
+    if (!answered) return;
+    if (questionIndex < questions.length - 1) {
+      questionIndex++;
+      renderQuestion();
+    } else {
+      $("quiz-card").hidden = true; // removes the question and Next button entirely
+      $("quiz-finished").hidden = false;
+    }
+  });
+  renderQuestion();
 
-music.addEventListener("ended", () => {
-  musicPlaying = false;
-  musicToggle.textContent = "▶";
-});
+  const wishes = [
+    "May you find courage for the dreams you haven’t said out loud yet.",
+    "May your hard days be met with patience, comfort, and people who care.",
+    "May you keep discovering new things that make you feel excited to be alive.",
+    "May the little moments — songs, sunsets, silly laughs — bring you unexpected joy.",
+  ];
+  let wishIndex = 0;
+  $("jar-button").addEventListener("click", () => {
+    if (wishIndex >= wishes.length) return; // after the last message, taps do nothing
+    const note = $("wish-note");
+    note.hidden = false;
+    note.classList.remove("wish-note");
+    void note.offsetWidth;
+    note.classList.add("wish-note");
+    note.textContent = wishes[wishIndex];
+    $("jar-count").textContent = `Wish ${wishIndex + 1} of ${wishes.length}`;
+    $("jar-prompt").textContent = wishIndex === wishes.length - 1 ? "ONE LAST WISH ♡" : "TAP THE JAR FOR ANOTHER WISH ✨";
+    $("jar-wrap")?.classList.remove("note-visible");
+    $("jar-button").animate([{ transform: "rotate(-5deg)" }, { transform: "rotate(5deg)" }, { transform: "rotate(0)" }], { duration: 420, easing: "ease-out" });
+    wishIndex++;
+    if (wishIndex === wishes.length) {
+      $("jar-button").classList.add("done");
+      $("jar-button").setAttribute("aria-label", "All wish jar messages have been read");
+      $("jar-prompt").textContent = "ALL YOUR WISHES HAVE BEEN OPENED ♡";
+      $("jar-count").textContent = `${wishes.length} of ${wishes.length} wishes read`;
+      setTimeout(() => { $("letter-unlock").hidden = false; }, 850);
+    }
+  });
+  $("letter-unlock").addEventListener("click", () => {
+    if (wishIndex === wishes.length) showScreen("letter-screen");
+  });
+  $("final-button").addEventListener("click", () => {
+    $("final-message").hidden = false;
+    $("final-button").hidden = true;
+    const moonButton = document.createElement("button");
+    moonButton.type = "button";
+    moonButton.className = "primary-btn";
+    moonButton.textContent = "One final thing under the moon →";
+    moonButton.addEventListener("click", () => showScreen("moon-screen"));
+    $("final-message").after(moonButton);
+    makeConfetti(65);
+  });
 
-/* ---------------------------
-   REPLAY THE EXPERIENCE
---------------------------- */
-
-$("replay-button").addEventListener("click", () => {
-  quizIndex = 0;
-  quizAnswered = false;
-  wishesRead = 0;
-  countdownRunning = false;
-
-  $("flame").classList.remove("out");
-  $("blow-button").disabled = false;
-  $("countdown").textContent = "";
-
-  $("cake-message").textContent =
-    "Your wish can stay a secret. 💗";
-
-  $("envelope-button").disabled = false;
-
-  $("envelope-button").innerHTML =
-    '<span class="envelope-art">💌</span>' +
-    '<span class="envelope-label">TAP TO OPEN IT</span>';
-
-  $("jar-prompt").textContent = "TAP THE JAR ♡";
-  $("jar-count").textContent = "0 of 4 wishes discovered";
-  $("memory-message").textContent = "";
-  $("memory-message").classList.remove("reveal");
-  $("letter-unlock").hidden = true;
-
-  $("quiz-next").hidden = true;
-  $("quiz-complete").hidden = true;
-
-  $("future-wish").value = "";
-  $("wish-status").textContent = "";
-  $("saved-wish").textContent = "";
-  $("saved-wish").hidden = true;
-
-  showScreen("gate");
-});
-
-/* ---------------------------
-   START
---------------------------- */
-
-showScreen("gate");
+  $("replay-button").addEventListener("click", () => {
+    // Do not clear localStorage: any existing Future Wishes text stays on this browser.
+    showScreen("gate");
+    $("password-input").value = "";
+    envelopeOpened = false;
+    cakeStarted = false;
+    $("envelope-button").classList.remove("opened");
+    $("envelope-message").hidden = true;
+    $("blow-button").hidden = false;
+    $("blow-button").disabled = false;
+    $("flame").classList.remove("out");
+    $("birthday-reveal").hidden = true;
+    $("countdown").textContent = "";
+    $("quiz-card").hidden = false;
+    $("quiz-finished").hidden = true;
+    questionIndex = 0;
+    renderQuestion();
+    wishIndex = 0;
+    $("wish-note").hidden = true;
+    $("jar-button").classList.remove("done");
+    $("jar-count").textContent = "Wish 0 of " + wishes.length;
+    $("jar-prompt").textContent = "TAP THE JAR TO OPEN A WISH ✨";
+    $("letter-unlock").hidden = true;
+    $("final-button").hidden = false;
+    $("final-message").hidden = true;
+    const moonNext = $("final-message").nextElementSibling;
+    if (moonNext && moonNext.tagName === "BUTTON") moonNext.remove();
+  });
+})();
