@@ -29,3 +29,21 @@ h1,h2{font-family:'Cormorant Garamond',serif;font-weight:500}h1{font-size:clamp(
 @media(max-width:650px){.screen{padding:78px 16px 38px}.password-card{padding:35px 22px}.password-title{font-size:49px}.reason-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.reason-card{min-height:145px;padding:15px 10px}.story-panel{padding:23px 20px}.story-panel p,.letter-body p{font-size:13px}.letter-paper{padding:32px 24px 28px}.letter-paper:before{left:12px}.envelope{transform:scale(.9)}.music-button{top:10px;right:10px;padding:9px 12px}.eyebrow{font-size:9px;letter-spacing:2.7px}.choice-row{gap:9px}.choice-row .button{padding:13px 18px}.sky-art{transform:scale(.9);margin-top:-7px;margin-bottom:0}}
 @media(max-width:390px){.reason-grid{grid-template-columns:1fr 1fr}.reason-card strong{font-size:12px}.button{font-size:12px;padding:13px 17px}.letter-body p{line-height:1.9}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Additional dreamy chapters */
+.wish-garden{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:720px;margin:30px auto 20px}
+.wish-card{position:relative;min-height:165px;padding:20px 12px 17px;border:1px solid #fff;background:linear-gradient(150deg,#ffffffc9,#fcecf5c9);border-radius:48% 48% 20px 20px/28% 28% 20px 20px;box-shadow:0 12px 30px #bd7b9c19;color:#91617c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.wish-card:before{content:"";position:absolute;inset:7px;border:1px solid #e9c4d5;border-radius:inherit;pointer-events:none}
+.wish-card:hover,.wish-card.open{transform:translateY(-7px) rotate(-1deg);box-shadow:0 18px 35px #bd7b9c2a;background:linear-gradient(150deg,#fff,#fff0f7)}
+.wish-card>span{font-size:32px;filter:drop-shadow(0 4px 7px #d9a0bc55)}.wish-card strong{font-size:12px}.wish-card small{font-size:10px;color:#b58ba0}.wish-card i{position:absolute;bottom:13px;width:5px;height:5px;border-radius:50%;background:#d9a6bf;box-shadow:0 0 12px #d9a6bf}
+.wish-message{min-height:65px;max-width:520px;margin:12px auto 20px;padding:17px 20px;border:1px solid #f0d6e2;border-radius:18px;background:#ffffffa5;color:#91617c;font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.55;box-shadow:0 8px 24px #bd7b9c12}
+.open-when-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:28px auto 18px;max-width:520px}
+.when-card{min-height:140px;border:1px solid #fff;border-radius:17px;padding:18px 13px;background:linear-gradient(145deg,#fffafc,#f9eaf2);box-shadow:0 8px 22px #bd7b9c18;color:#8f617a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.when-card:hover,.when-card.selected{transform:translateY(-4px);box-shadow:0 13px 28px #bd7b9c29;background:#fff}
+.when-card span{font-size:28px}.when-card strong{font-size:12px}.when-card small{font-size:10px;color:#b58ba0}
+.when-note{position:relative;max-width:500px;min-height:120px;margin:18px auto 24px;padding:25px 25px 22px;border-radius:5px 18px 5px 18px;background:linear-gradient(130deg,#fffefa,#fff0f6);border:1px solid #ecd1de;box-shadow:0 12px 30px #bd7b9c18;color:#91617c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.when-note:before{content:"";position:absolute;inset:8px;border:1px dashed #e8bfd1;pointer-events:none}
+.note-seal{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,#e9b4cc,#c49ad5);color:white;display:grid;place-items:center;z-index:1}
+.when-note p{font-family:'Cormorant Garamond',serif;font-size:21px;line-height:1.55;z-index:1}
+@media(max-width:650px){.wish-garden{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wish-card{min-height:150px}.when-card{min-height:132px;padding:14px 9px}}
+@media(max-width:370px){.open-when-grid{gap:8px}.when-card strong{font-size:11px}}
