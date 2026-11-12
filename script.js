@@ -112,3 +112,19 @@ $("restartButton").addEventListener("click",()=>{
   $("moodReply").textContent="Choose one to reveal your very official result.";
   showScreen("welcomeScreen");
 });
+
+/* Wish garden and open-when notes */
+document.querySelectorAll(".wish-card").forEach(card=>card.addEventListener("click",()=>{
+  document.querySelectorAll(".wish-card").forEach(item=>item.classList.remove("open"));
+  card.classList.add("open");
+  $("wishMessage").textContent=card.dataset.wish;
+  startParticles("🌸",9);
+}));
+document.querySelectorAll(".when-card").forEach(card=>card.addEventListener("click",()=>{
+  document.querySelectorAll(".when-card").forEach(item=>item.classList.remove("selected"));
+  card.classList.add("selected");
+  const note=$("whenNote");
+  note.innerHTML='<span class="note-seal">♡</span><p></p>';
+  note.querySelector("p").textContent=card.dataset.when;
+  startParticles("♡",8);
+}));
