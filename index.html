@@ -12,210 +12,114 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-  <div class="grain"></div>
-  <div class="particles" id="particles" aria-hidden="true"></div>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <div class="grain"></div><div class="particles" id="particles" aria-hidden="true"></div>
 
-  <button class="music-button" id="musicButton" type="button" aria-label="Toggle background music">
-    <span class="music-icon">♫</span><span id="musicLabel">Music off</span>
-  </button>
-  <audio id="backgroundMusic" loop preload="none">
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+  <button class="music-button" id="musicButton" type="button" aria-label="Toggle background music"><span>♫</span> <span id="musicLabel">Music off</span></button>
+  <audio id="backgroundMusic" loop preload="none"><source src="music.mp3" type="audio/mpeg"></audio>
 
   <main>
-    <!-- PASSWORD -->
     <section id="passwordScreen" class="screen active">
       <div class="password-card glass-card">
-        <div class="tiny-stars">✦　✧　✦</div>
-        <div class="password-orb"><span>♡</span></div>
+        <div class="tiny-stars">✦　✧　✦</div><div class="password-orb">♡</div>
         <p class="eyebrow">A PRIVATE LITTLE SURPRISE</p>
         <h1 class="password-title">For you,<br><em>Dipika.</em></h1>
-        <p class="body-copy">A small corner of the internet, made with a lot of thought and a little courage.</p>
+        <p class="body-copy">A little world made with thought, care, and a few things I've wanted to tell you.</p>
         <label class="sr-only" for="passwordInput">Secret password</label>
-        <div class="password-field">
-          <input id="passwordInput" type="password" placeholder="Enter the secret password" autocomplete="off" inputmode="numeric">
-          <button id="togglePassword" type="button" aria-label="Show password">◉</button>
-        </div>
+        <div class="password-field"><input id="passwordInput" type="password" placeholder="Enter the secret password" autocomplete="off" inputmode="numeric"><button id="togglePassword" type="button" aria-label="Show password">◉</button></div>
         <p id="passwordError" class="error-message" aria-live="polite"></p>
         <button id="unlockButton" class="button button-primary button-wide" type="button">Open your surprise <span>♡</span></button>
         <p class="micro-copy">Take your time. There's no rush. ✧</p>
       </div>
     </section>
 
-    <!-- INTRO -->
     <section id="welcomeScreen" class="screen">
       <div class="welcome-wrap">
-        <div class="sky-art" aria-hidden="true">
-          <div class="glow-disc"></div>
-          <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
-          <span class="sky-spark s1">✦</span><span class="sky-spark s2">✧</span>
-          <span class="sky-spark s3">✦</span><span class="sky-spark s4">·</span>
-          <span class="sky-heart">♡</span>
-        </div>
+        <div class="sky-art" aria-hidden="true"><div class="glow-disc"></div><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><span class="sky-spark s1">✦</span><span class="sky-spark s2">✧</span><span class="sky-spark s3">✦</span><span class="sky-heart">♡</span></div>
         <p class="eyebrow">A LITTLE SOMETHING, JUST FOR YOU</p>
         <h1 class="hero-title">Hello,<br><em>Dipika</em></h1>
-        <p class="hero-copy">Some feelings are easier to show when you make them a little world of their own.</p>
+        <p class="hero-copy">Some feelings are easier to share when you give them a little world of their own.</p>
         <button id="startButton" class="button button-primary" type="button">Take a little look <span>→</span></button>
         <div class="hint-line"><span></span> YOUR LITTLE SURPRISE BEGINS HERE <span></span></div>
       </div>
     </section>
 
-    <!-- ENVELOPE -->
     <section id="envelopeScreen" class="screen">
       <div class="section-wrap">
-        <p class="eyebrow">A VERY IMPORTANT QUESTION</p>
-        <h2 class="section-title">A tiny envelope.<br><em>A tiny mystery.</em></h2>
+        <p class="eyebrow">A VERY IMPORTANT QUESTION</p><h2 class="section-title">A tiny envelope.<br><em>A tiny mystery.</em></h2>
         <p class="body-copy">Are you curious enough to see what's inside?</p>
-        <div class="envelope-stage">
-          <div class="envelope" id="envelope">
-            <div class="env-back"></div>
-            <div class="env-letter"><span>For Dipika</span><b>♡</b></div>
-            <div class="env-front"></div>
-            <div class="env-flap"></div>
-            <div class="env-seal">♡</div>
-          </div>
-          <span class="envelope-spark spark-left">✧</span>
-          <span class="envelope-spark spark-right">✦</span>
-        </div>
-        <div class="choice-row" id="choiceArea">
-          <button id="yesButton" class="button button-primary" type="button">YES, open it! 💗</button>
-          <button id="noButton" class="button button-quiet" type="button">No, not now 🙈</button>
-        </div>
+        <div class="envelope-stage"><div class="envelope" id="envelope"><div class="env-back"></div><div class="env-letter"><span>For Dipika</span><b>♡</b></div><div class="env-front"></div><div class="env-flap"></div><div class="env-seal">♡</div></div><span class="envelope-spark spark-left">✧</span><span class="envelope-spark spark-right">✦</span></div>
+        <div class="choice-row" id="choiceArea"><button id="yesButton" class="button button-primary" type="button">YES, open it! 💗</button><button id="noButton" class="button button-quiet" type="button">No, not now 🙈</button></div>
         <p id="choiceMessage" class="micro-copy" aria-live="polite">The buttons are dramatic. Your choice isn't. ♡</p>
+        <button id="declineButton" class="text-link" type="button">I'd rather not open it</button>
       </div>
     </section>
 
-    <!-- GENTLE NO RESPONSE -->
     <section id="noThanksScreen" class="screen">
-      <div class="section-wrap compact-wrap">
-        <div class="soft-flower">🌷</div>
-        <p class="eyebrow">THAT'S COMPLETELY OKAY</p>
-        <h2 class="section-title">No pressure.<br><em>Not even a little.</em></h2>
-        <p class="body-copy">Thank you for stopping by. You don't owe me an answer or an explanation. I hope the rest of your day is lovely.</p>
-        <button id="backToEnvelope" class="button button-outline" type="button">Go back</button>
-      </div>
+      <div class="section-wrap compact-wrap"><div class="soft-flower">🌷</div><p class="eyebrow">THAT'S COMPLETELY OKAY</p><h2 class="section-title">No pressure.<br><em>Not even a little.</em></h2><p class="body-copy">Thank you for stopping by. You don't owe me an answer or an explanation. I hope the rest of your day is lovely.</p><button id="backToEnvelope" class="button button-outline" type="button">Go back</button></div>
     </section>
 
-    <!-- STORY -->
     <section id="storyScreen" class="screen">
-      <div class="section-wrap story-wrap">
-        <p class="eyebrow">CHAPTER ONE · THE UNEXPECTED HELLO</p>
-        <div class="chapter-number">01</div>
-        <h2 class="section-title">It started with<br><em>one little message.</em></h2>
-        <div class="story-panel glass-card">
-          <div class="story-quote">“Funny how an ordinary day can become the beginning of something unforgettable.”</div>
-          <p>We met through Instagram. It wasn't some grand movie moment—just a conversation that happened unexpectedly.</p>
-          <p>One message turned into another. Random chats became conversations I looked forward to. And without either of us planning it, you became someone I genuinely cared about.</p>
-          <p>What began so casually became a connection that meant a lot to me. I still think that's a pretty beautiful thing.</p>
-        </div>
-        <div class="chapter-foot"><span>01</span><span class="chapter-line"></span><span>THE BEGINNING</span></div>
-        <button class="button button-primary next-button" data-next="littleThingsScreen" type="button">Keep going <span>→</span></button>
+      <div class="section-wrap story-wrap"><p class="eyebrow">CHAPTER ONE · THE UNEXPECTED HELLO</p><div class="chapter-number">01</div><h2 class="section-title">It started with<br><em>one little message.</em></h2>
+        <div class="story-panel glass-card"><div class="story-quote">“Funny how an ordinary day can become the beginning of something unforgettable.”</div><p>We met through Instagram. It wasn't some grand movie moment—just a conversation that happened unexpectedly.</p><p>One message turned into another. Random chats became conversations I looked forward to. And without either of us planning it, you became someone I genuinely cared about.</p><p>What began so casually became a connection that meant a lot to me. I still think that's a pretty beautiful thing.</p><p>Sometimes the most meaningful people enter our lives without an announcement. They simply arrive, and ordinary moments start feeling a little different.</p></div>
+        <div class="chapter-foot"><span>01</span><span class="chapter-line"></span><span>THE BEGINNING</span></div><button class="button button-primary next-button" data-next="littleThingsScreen" type="button">Keep going <span>→</span></button>
       </div>
     </section>
 
-    <!-- LITTLE THINGS -->
     <section id="littleThingsScreen" class="screen">
-      <div class="section-wrap">
-        <p class="eyebrow">CHAPTER TWO · THE LITTLE THINGS</p>
-        <div class="chapter-number">02</div>
-        <h2 class="section-title">Things I appreciate<br><em>about you.</em></h2>
-        <p class="body-copy">Tap each little card. They're small reminders of what makes you special to me.</p>
+      <div class="section-wrap"><p class="eyebrow">CHAPTER TWO · THE LITTLE THINGS</p><div class="chapter-number">02</div><h2 class="section-title">Things I appreciate<br><em>about you.</em></h2><p class="body-copy">Tap each little card. They're small reminders of what makes you special to me.</p>
         <div class="reason-grid">
-          <button class="reason-card" type="button" data-reason="You listen in a way that makes someone feel heard. That means more than you probably realise.">
-            <span class="reason-icon">☁</span><strong>The way you listen</strong><small>Tap to open ✧</small><span class="reason-detail"></span>
-          </button>
-          <button class="reason-card" type="button" data-reason="You have a way of understanding feelings without needing every single thing explained.">
-            <span class="reason-icon">♡</span><strong>Your understanding</strong><small>Tap to open ✧</small><span class="reason-detail"></span>
-          </button>
-          <button class="reason-card" type="button" data-reason="You stayed beside me when I felt alone. I will always appreciate that kindness.">
-            <span class="reason-icon">🌷</span><strong>Your kindness</strong><small>Tap to open ✧</small><span class="reason-detail"></span>
-          </button>
-          <button class="reason-card" type="button" data-reason="Even an ordinary chat can make a day feel a little brighter. That's a lovely thing to be able to do.">
-            <span class="reason-icon">☀</span><strong>Your presence</strong><small>Tap to open ✧</small><span class="reason-detail"></span>
-          </button>
+          <button class="reason-card" type="button" data-reason="You listen in a way that makes someone feel heard. That means more than you probably realise."><span class="reason-icon">☁</span><strong>The way you listen</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
+          <button class="reason-card" type="button" data-reason="You have a way of understanding feelings without needing every single thing explained."><span class="reason-icon">♡</span><strong>Your understanding</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
+          <button class="reason-card" type="button" data-reason="You stayed beside me when I felt alone. I will always appreciate that kindness."><span class="reason-icon">🌷</span><strong>Your kindness</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
+          <button class="reason-card" type="button" data-reason="Even an ordinary chat can make a day feel a little brighter. That's a lovely thing to be able to do."><span class="reason-icon">☀</span><strong>Your presence</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
+          <button class="reason-card" type="button" data-reason="I admire that you can be honest. Being genuine is something I value a lot."><span class="reason-icon">✧</span><strong>Your honesty</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
+          <button class="reason-card" type="button" data-reason="The small moments matter too: a message, a laugh, or simply knowing you're doing okay."><span class="reason-icon">🌸</span><strong>The little moments</strong><small>Tap to open ✧</small><span class="reason-detail"></span></button>
         </div>
-        <p class="micro-copy">There are more little things than I could fit on four cards.</p>
-        <button class="button button-primary next-button" data-next="tinyPauseScreen" type="button">One more little surprise <span>→</span></button>
+        <p class="micro-copy">There are more little things than I could ever fit on cards.</p><button class="button button-primary next-button" data-next="memoryScreen" type="button">A few moments to remember <span>→</span></button>
       </div>
     </section>
 
-    <!-- INTERACTIVE PAUSE -->
+    <section id="memoryScreen" class="screen">
+      <div class="section-wrap compact-wrap"><p class="eyebrow">CHAPTER THREE · A LITTLE MEMORY JAR</p><div class="chapter-number">03</div><h2 class="section-title">Little things that<br><em>stay with me.</em></h2><p class="body-copy">Open each note. Nothing grand—just honest thoughts I wanted to put into words.</p>
+        <div class="memory-jar"><div class="jar-lid"></div><div class="jar-glass"><span>✦</span><span>♡</span><span>✧</span><span>🌸</span><span>♡</span></div></div>
+        <div class="memory-notes"><button class="memory-note" type="button" data-note="I remember how naturally our conversations began. I didn't know then how much they would come to mean.">01 · The beginning</button><button class="memory-note" type="button" data-note="I remember feeling understood without having to find perfect words. That kind of comfort is rare.">02 · Feeling understood</button><button class="memory-note" type="button" data-note="I remember that you stayed present when I needed someone. I haven't forgotten that kindness.">03 · Your kindness</button></div>
+        <p id="memoryMessage" class="memory-message" aria-live="polite">Choose a little note to open it. ♡</p><button class="button button-primary next-button" data-next="tinyPauseScreen" type="button">One more little surprise <span>→</span></button>
+      </div>
+    </section>
+
     <section id="tinyPauseScreen" class="screen">
-      <div class="section-wrap compact-wrap">
-        <p class="eyebrow">A VERY SCIENTIFIC MINI TEST</p>
-        <div class="quiz-sticker">✨</div>
-        <h2 class="section-title">Pick a little<br><em>mood for today.</em></h2>
-        <p class="body-copy">No wrong answers. This is extremely serious research. 😂</p>
-        <div class="mood-options">
-          <button class="mood-button" type="button" data-mood="soft">🌸 Soft & peaceful</button>
-          <button class="mood-button" type="button" data-mood="sparkly">✨ Sparkly & happy</button>
-          <button class="mood-button" type="button" data-mood="cozy">☕ Cozy & calm</button>
-        </div>
-        <p id="moodReply" class="mood-reply" aria-live="polite">Choose one to reveal your very official result.</p>
-        <button class="button button-primary next-button" data-next="letterScreen" type="button">Now, the important part <span>→</span></button>
+      <div class="section-wrap compact-wrap"><p class="eyebrow">A VERY SCIENTIFIC MINI TEST</p><div class="quiz-sticker">✨</div><h2 class="section-title">Pick a little<br><em>mood for today.</em></h2><p class="body-copy">No wrong answers. This is extremely serious research. 😂</p>
+        <div class="mood-options"><button class="mood-button" type="button" data-mood="soft">🌸 Soft & peaceful</button><button class="mood-button" type="button" data-mood="sparkly">✨ Sparkly & happy</button><button class="mood-button" type="button" data-mood="cozy">☕ Cozy & calm</button></div>
+        <p id="moodReply" class="mood-reply" aria-live="polite">Choose one to reveal your very official result.</p><button class="button button-primary next-button" data-next="letterScreen" type="button">Now, the important part <span>→</span></button>
       </div>
     </section>
 
-    <!-- LETTER -->
     <section id="letterScreen" class="screen">
-      <div class="section-wrap letter-wrap">
-        <p class="eyebrow">CHAPTER THREE · A LETTER FOR YOU</p>
-        <div class="chapter-number">03</div>
-        <h2 class="section-title">A few words<br><em>from my heart.</em></h2>
-        <article class="letter-paper">
-          <div class="letter-topline"><span>JUST FOR YOU</span><span>♡</span></div>
-          <p class="letter-greeting">Dear Dipika,</p>
-          <div class="letter-body">
-            <p>I have been trying to find the right words, but maybe there aren't perfect words for something that feels this genuine.</p>
-            <p>When we first started talking on Instagram, I had no idea that a random conversation would turn into someone so important to me. I didn't plan it. It just happened, little by little.</p>
-            <p>You were there for me when I felt like nobody was. You listened, you understood me, and you made me feel that I didn't have to explain every little thing to be understood. I hope I have made you feel even a little of that comfort too.</p>
-            <p>I appreciate the person you are, not just the way you make me feel. Your kindness, your honesty, your way of understanding things, and all those little moments that might seem ordinary to you are meaningful to me.</p>
-            <p>There is something I want to say clearly: <strong>I love you.</strong> I don't say it to put pressure on you or to ask you to say it back. I say it because it's what I genuinely feel, and I wanted you to know.</p>
-            <p>I don't expect you to have an answer ready. Take your time, be honest with yourself, and tell me what you really feel whenever you're comfortable. Whatever your answer is, I will respect it.</p>
-            <p>Thank you for being someone who made a difference in my life. I'm really glad our paths crossed.</p>
-          </div>
-          <p class="letter-signoff">With care,</p>
-          <p class="letter-signature">Someone who thinks you're special ♡</p>
-          <div class="letter-bottom-mark">✧ &nbsp; ✦ &nbsp; ♡ &nbsp; ✦ &nbsp; ✧</div>
-        </article>
+      <div class="section-wrap letter-wrap"><p class="eyebrow">CHAPTER FOUR · A LETTER FOR YOU</p><div class="chapter-number">04</div><h2 class="section-title">A few words<br><em>from my heart.</em></h2>
+        <article class="letter-paper"><div class="letter-topline"><span>JUST FOR YOU</span><span>♡</span></div><p class="letter-greeting">Dear Dipika,</p><div class="letter-body">
+          <p>I have been trying to find the right words, but maybe there aren't perfect words for something that feels this genuine.</p>
+          <p>When we first started talking on Instagram, I had no idea that a random conversation would turn into someone so important to me. I didn't plan it. It just happened, little by little. A simple hello became a reason to check my phone and a conversation became something I looked forward to.</p>
+          <p>You were there for me when I felt like nobody was. You listened, you understood me, and you made me feel that I didn't have to explain every little thing to be understood. I hope I have made you feel even a little of that comfort too.</p>
+          <p>I appreciate the person you are, not just the way you make me feel. Your kindness, your honesty, your way of understanding things, and all those little moments that might seem ordinary to you are meaningful to me.</p>
+          <p>I like how we can understand each other in ways that don't always need a long explanation. I value the conversations, the laughter, the small check-ins, and even the quiet moments. They may look ordinary from the outside, but they have their own place in my heart.</p>
+          <p>There is something I want to say clearly: <strong>I love you.</strong> I don't say it to put pressure on you or to ask you to say it back. I say it because it's what I genuinely feel, and I wanted you to know.</p>
+          <p>I don't expect you to have an answer ready. Take your time, be honest with yourself, and tell me what you really feel whenever you're comfortable. You don't have to match my feelings just because I've shared them. Your comfort and honesty matter more than any particular answer.</p>
+          <p>Whatever you feel, I will respect it. I never want these words to become a weight on your shoulders. I only hope they help you understand how much I appreciate having you in my life.</p>
+          <p>Thank you for being someone who made a difference in my life. I'm really glad our paths crossed, and I hope life gives you countless reasons to smile.</p>
+        </div><p class="letter-signoff">With care,</p><p class="letter-signature">Someone who thinks you're special ♡</p><div class="letter-bottom-mark">✧ &nbsp; ✦ &nbsp; ♡ &nbsp; ✦ &nbsp; ✧</div></article>
         <button class="button button-primary next-button" data-next="revealScreen" type="button">There's one thing left <span>→</span></button>
       </div>
     </section>
 
-    <!-- REVEAL -->
     <section id="revealScreen" class="screen">
-      <div class="reveal-wrap">
-        <div class="heart-aura"><span>♥</span></div>
-        <p class="eyebrow">SO, HERE IT IS</p>
-        <h1 class="love-title">I LOVE YOU</h1>
-        <p class="love-name">Dipika</p>
-        <div class="gold-divider">────── ♡ ──────</div>
-        <p class="reveal-copy">Not as a line in a website,<br>but as something I truly feel.</p>
-        <p class="reveal-small">You don't have to answer right now.<br>Your honesty will always matter more than the answer I hope for.</p>
-        <button id="heartButton" class="button button-primary heart-button" type="button">Send a little sparkle ✨</button>
-        <p id="heartResponse" class="heart-response" aria-live="polite"></p>
-      </div>
+      <div class="reveal-wrap"><div class="heart-aura"><span>♥</span></div><p class="eyebrow">SO, HERE IT IS</p><h1 class="love-title">I LOVE YOU</h1><p class="love-name">Dipika</p><div class="gold-divider">────── ♡ ──────</div><p class="reveal-copy">Not as a line in a website,<br>but as something I truly feel.</p><p class="reveal-small">You don't have to answer right now.<br>Your honesty will always matter more than the answer I hope for.</p><button id="heartButton" class="button button-primary heart-button" type="button">Send a little sparkle ✨</button><p id="heartResponse" class="heart-response" aria-live="polite"></p></div>
     </section>
 
-    <!-- END -->
     <section id="finalScreen" class="screen">
-      <div class="section-wrap compact-wrap">
-        <div class="final-bloom">🌸</div>
-        <p class="eyebrow">THE END OF MY LITTLE SURPRISE</p>
-        <h2 class="section-title">Whatever happens,<br><em>thank you for being you.</em></h2>
-        <p class="body-copy">I hope this made you smile, even for a moment. I made this little place to share something honest with you, and I'm glad you got to see it.</p>
-        <div class="final-note glass-card">
-          <span>ONE LAST LITTLE REMINDER</span>
-          <p>You are appreciated. You are understood. And you deserve kindness, always. ♡</p>
-        </div>
-        <p class="final-signature">Made with care, just for Dipika.</p>
-        <button id="restartButton" class="button button-outline" type="button">Experience it again ↺</button>
-      </div>
+      <div class="section-wrap compact-wrap"><div class="final-bloom">🌸</div><p class="eyebrow">THE END OF MY LITTLE SURPRISE</p><h2 class="section-title">Whatever happens,<br><em>thank you for being you.</em></h2><p class="body-copy">I made this little place to share something honest with you. I hope it made you smile, even for a moment.</p><div class="final-note glass-card"><span>ONE LAST LITTLE REMINDER</span><p>You are appreciated. You are understood. And you deserve kindness, always. ♡</p></div><p class="final-signature">Made with care, just for Dipika.</p><button id="restartButton" class="button button-outline" type="button">Experience it again ↺</button></div>
     </section>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
