@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f9dce9">
+  <meta name="description" content="A little surprise made with love for Dipika.">
+  <title>A Little Surprise for Dipika ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="ambient" id="ambient"></div>
+  <div class="particles" id="particles"></div>
+
+  <button class="music-button" id="musicButton" aria-label="Toggle music">
+    ♫ <span id="musicLabel">Music off</span>
+  </button>
+
+  <audio id="backgroundMusic" loop preload="none">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- PASSWORD SCREEN -->
+  <main id="passwordScreen" class="screen active">
+    <div class="password-card glass">
+      <div class="small-stars">✦　✧　✦</div>
+      <div class="moon-icon">☾</div>
+      <p class="eyebrow">A LITTLE SOMETHING FOR YOU</p>
+      <h1>Hey, Dipika!</h1>
+      <p class="soft-text">A little surprise is waiting behind this door.</p>
+      <div class="input-wrap">
+        <input id="passwordInput" type="password"
+          placeholder="Enter your secret password"
+          autocomplete="off">
+        <button id="togglePassword" class="eye-button" aria-label="Show password">◉</button>
+      </div>
+      <p id="passwordError" class="error-message" aria-live="polite"></p>
+      <button id="unlockButton" class="primary-button">Unlock my surprise <span>♡</span></button>
+      <p class="tiny-note">Made with a little extra care ✨</p>
+    </div>
+  </main>
+
+  <!-- WELCOME SCREEN -->
+  <section id="welcomeScreen" class="screen">
+    <div class="welcome-content">
+      <div class="orbit">
+        <div class="orbit-moon">☾</div>
+        <span class="orbit-star star-one">✦</span>
+        <span class="orbit-star star-two">✧</span>
+        <span class="orbit-star star-three">✦</span>
+      </div>
+      <p class="eyebrow">A LITTLE UNIVERSE FOR YOU</p>
+      <h1 class="welcome-title">Hello, <span>Dipika</span></h1>
+      <p class="welcome-subtitle">
+        Some things are too special to fit into an ordinary message.
+      </p>
+      <button class="primary-button" id="startButton">
+        There's something for you <span>♡</span>
+      </button>
+      <div class="scroll-hint">A little surprise awaits ↓</div>
+    </div>
+  </section>
+
+  <!-- ENVELOPE QUESTION -->
+  <section id="envelopeScreen" class="screen">
+    <div class="section-content">
+      <p class="eyebrow">JUST ONE LITTLE QUESTION</p>
+      <h2>Are you curious enough<br>to open this? <span>💌</span></h2>
+      <p class="soft-text">I made something especially for you.</p>
+
+      <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope">
+          <div class="envelope-back"></div>
+          <div class="envelope-letter">
+            <span>For Dipika ♡</span>
+          </div>
+          <div class="envelope-front"></div>
+          <div class="envelope-flap"></div>
+          <div class="envelope-seal">♡</div>
+        </div>
+      </div>
+
+      <div class="choice-area" id="choiceArea">
+        <button id="yesButton" class="primary-button">YES! Open it 💗</button>
+        <button id="noButton" class="no-button">No 🙈</button>
+      </div>
+      <p class="tiny-note" id="choiceMessage" aria-live="polite">
+        Choose whichever you like. No pressure. ♡
+      </p>
+    </div>
+  </section>
+
+  <!-- STORY SCREEN -->
+  <section id="storyScreen" class="screen">
+    <div class="section-content story-content">
+      <p class="eyebrow">A LITTLE LOOK BACK</p>
+      <div class="story-icon">✧</div>
+      <h2>Who knew a simple hello<br>would mean so much?</h2>
+      <div class="story-card glass">
+        <p>
+          It all started with an unexpected conversation on Instagram.
+          Just two people talking, without knowing how meaningful those
+          conversations would become.
+        </p>
+        <p>
+          Slowly, those random chats became something I looked forward to.
+          And somewhere along the way, you became someone truly special.
+        </p>
+        <p>
+          You understood me in moments when I felt nobody really could.
+          You stayed, you listened, and you made me feel understood.
+        </p>
+        <p>
+          And I hope you know that I have always wanted you to feel
+          understood and appreciated too.
+        </p>
+      </div>
+      <button class="primary-button next-button" data-next="letterScreen">
+        There's more I want to say <span>♡</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- LETTER SCREEN -->
+  <section id="letterScreen" class="screen">
+    <div class="section-content letter-content">
+      <p class="eyebrow">FROM MY HEART TO YOURS</p>
+      <div class="letter-paper">
+        <div class="letter-decoration">♡</div>
+        <p class="letter-greeting">Dear Dipika,</p>
+        <div id="letterText" class="letter-text">
+          <p>
+            I don't really know where to begin, because there are so many
+            things I wish I could tell you.
+          </p>
+          <p>
+            You came into my life so unexpectedly, and somehow you became
+            one of the people who means the most to me.
+          </p>
+          <p>
+            I love the way you understand me, the way you listen, and the
+            way even an ordinary conversation with you can make my day better.
+          </p>
+          <p>
+            I don't know what tomorrow holds, and I don't want to make
+            promises about things neither of us can predict.
+          </p>
+          <p>
+            But I do know that my feelings for you are real. I care about
+            you more than I sometimes know how to explain.
+          </p>
+          <p>
+            I'm not asking you to give me an answer right now. I just
+            wanted to be honest with you and let you know what's in my heart.
+          </p>
+          <p>
+            Whatever you feel, I respect it. Your happiness matters to me.
+          </p>
+        </div>
+        <p class="letter-ending">With all my heart,</p>
+        <p class="signature">Someone who cares about you ♡</p>
+      </div>
+      <button class="primary-button next-button" data-next="revealScreen">
+        One last thing... <span>♡</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- LOVE REVEAL -->
+  <section id="revealScreen" class="screen">
+    <div class="reveal-content">
+      <div class="big-heart">♥</div>
+      <p class="eyebrow">THERE'S SOMETHING I WANT YOU TO KNOW</p>
+      <h1 class="love-title">I LOVE YOU</h1>
+      <h2 class="name-title">Dipika ♡</h2>
+      <div class="divider-heart">───── ♡ ─────</div>
+      <p class="love-message">
+        I don't need a perfect story.<br>
+        I just wanted you to know<br>
+        how special you are to me.
+      </p>
+      <p class="love-message secondary-message">
+        You don't have to say anything right away.<br>
+        Just take your time. ❤️
+      </p>
+      <button id="heartButton" class="heart-button">Send a little love ♡</button>
+      <div id="heartResponse" class="heart-response" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- FINAL SCREEN -->
+  <section id="finalScreen" class="screen">
+    <div class="final-content">
+      <div class="final-flower">🌷</div>
+      <p class="eyebrow">THANK YOU FOR READING</p>
+      <h2>That's everything<br>from my heart.</h2>
+      <p class="soft-text">
+        No expectations. No pressure. Just genuine feelings
+        and a little website made especially for you.
+      </p>
+      <div class="final-signature">Made with love, just for Dipika ♡</div>
+      <button class="text-button" id="restartButton">Read it again ↺</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
